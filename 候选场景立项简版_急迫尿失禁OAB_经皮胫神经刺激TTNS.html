@@ -73,8 +73,14 @@ a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thic
 }
 
 .toc{font-size:.85rem}
-.toc .toc-title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);font-weight:600;margin:0 0 1rem;padding-bottom:.7rem;border-bottom:1px solid var(--rule)}
+.toc>summary.toc-title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0 0 1rem;padding-bottom:.7rem;border-bottom:1px solid var(--rule);
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.toc>summary.toc-title::-webkit-details-marker{display:none}
+.toc>summary.toc-title::after{content:"";width:.46rem;height:.46rem;flex:0 0 auto;margin-bottom:.18em;
+  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease}
+.toc[open]>summary.toc-title::after{transform:rotate(-135deg)}
+.toc:not([open])>summary.toc-title{margin-bottom:0}
 .toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
 .toc li{margin:0}
 .toc a{display:block;color:var(--ink-soft);padding:.42em 0 .42em .9rem;
@@ -86,9 +92,12 @@ a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thic
     padding-right:.4rem;-webkit-overflow-scrolling:touch}
   .toc::-webkit-scrollbar{width:5px}
   .toc::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+  .toc>summary.toc-title{pointer-events:none}
+  .toc>summary.toc-title::after{display:none}
 }
 @media (max-width:1079px){
-  .toc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.2rem 1.3rem}
+  .toc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.05rem 1.15rem}
+  .toc a{padding-top:.62em;padding-bottom:.62em}
 }
 
 .prose{max-width:var(--maxw);min-width:0}
@@ -181,10 +190,10 @@ td:first-child{color:var(--ink)}
 </header>
 
 <div class="layout">
-  <nav class="toc" aria-label="目录">
-    <p class="toc-title">目录</p>
+  <details class="toc" open>
+    <summary class="toc-title">目录</summary>
     <ol><li><a href="#sec-0" data-target="sec-0">〇、一句话结论</a></li><li><a href="#sec-1" data-target="sec-1">一、需求与市场</a></li><li><a href="#sec-2" data-target="sec-2">二、证据链</a></li><li><a href="#sec-3" data-target="sec-3">三、海外标杆对标</a></li><li><a href="#sec-4" data-target="sec-4">四、国内竞争与注册证(已核实)</a></li><li><a href="#sec-5" data-target="sec-5">五、产品形态与差异化</a></li><li><a href="#sec-6" data-target="sec-6">六、合规边界</a></li><li><a href="#sec-7" data-target="sec-7">七、如何验证效果</a></li><li><a href="#sec-8" data-target="sec-8">八、风险矩阵</a></li><li><a href="#sec-9" data-target="sec-9">九、结论与下一步</a></li></ol>
-  </nav>
+  </details>
   <main class="prose">
 
 <section class="chapter" id="sec-0">
@@ -269,6 +278,8 @@ td:first-child{color:var(--ink)}
 
 <script>
 (function(){
+  var toc=document.querySelector('details.toc');
+  if(toc&&window.matchMedia('(max-width:1079px)').matches)toc.open=false;
   var bar=document.querySelector('.progress');
   function onScroll(){
     var h=document.documentElement;

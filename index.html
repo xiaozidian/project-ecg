@@ -18,9 +18,9 @@
   --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-  display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+  height:100vh;height:100dvh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 
 /* ---------- app bar ---------- */
 .appbar{flex:0 0 auto;background:var(--bg);border-bottom:1px solid var(--rule);
@@ -50,13 +50,22 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
 .frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none}
 .frames iframe.active{display:block}
 
-.fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
-  padding:2rem;color:var(--muted);font-size:.9rem;line-height:1.7}
+.fallback{position:absolute;left:0;right:0;bottom:0;padding:.5rem 1rem;text-align:center;
+  color:var(--muted);font-size:.78rem;line-height:1.6;background:var(--bg);
+  border-top:1px solid var(--rule-soft)}
 .fallback a{color:var(--accent);font-weight:600}
 
 @media (max-width:560px){
+  .appbar{padding:.55rem .9rem 0}
+  .brand{margin-bottom:.5rem;gap:.5rem}
   .brand .kicker{display:none}
+  .brand h1{font-size:.95rem}
+  .tabs{gap:.25rem}
+  .tab{flex:1 1 0;align-items:center;justify-content:center;text-align:center;
+    padding:.7rem .4rem;min-height:46px}
   .tab .t-sub{display:none}
+  .tab .t-main{font-size:.84rem}
+  .tab.active::after{left:.4rem;right:.4rem}
 }
 </style>
 </head>
@@ -81,14 +90,809 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
 
 <div class="frames">
   <iframe id="frame-report" class="active" title="原发性痛经立项调研报告"
-          src="女性健康电刺激产品_立项调研报告.html" loading="eager"></iframe>
-  <iframe id="frame-oab" title="OAB / TTNS 候选场景立项简版"
-          src="候选场景立项简版_急迫尿失禁OAB_经皮胫神经刺激TTNS.html" loading="eager"></iframe>
-  <div class="fallback" id="fallback" hidden>
-    <p>若内嵌页面未能加载,可直接打开:<br>
-      <a href="女性健康电刺激产品_立项调研报告.html">主报告 · 原发性痛经</a> ·
-      <a href="候选场景立项简版_急迫尿失禁OAB_经皮胫神经刺激TTNS.html">候选场景 · OAB/TTNS</a></p>
-  </div>
+          srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;title&gt;女性健康可穿戴电刺激产品 · 立项调研报告&lt;/title&gt;
+&lt;meta name=&quot;description&quot; content=&quot;以原发性痛经为主打场景的非药物镇痛贴片(经期助眠 / 更年期舒缓为产品线延展)&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+:root{
+  --bg:#ffffff;
+  --surface:#faf7f5;
+  --surface-2:#f5efec;
+  --ink:#231d1b;
+  --ink-soft:#4f4744;
+  --muted:#6a615d;
+  --rule:#e8e1dc;
+  --rule-soft:#f0ebe7;
+  --accent:#a32a45;
+  --accent-deep:#7c1d33;
+  --accent-tint:#fbeef1;
+  --accent-soft:#f6e2e7;
+  --g:#2f8f5b; --y:#c8881b; --r:#bb2d3b;
+  --maxw:44rem;
+  --serif:&quot;Newsreader&quot;,&quot;Songti SC&quot;,&quot;STSong&quot;,&quot;Noto Serif SC&quot;,&quot;Source Han Serif SC&quot;,Georgia,serif;
+  --sans:&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,-apple-system,system-ui,&quot;Segoe UI&quot;,sans-serif;
+  --z-toc:10; --z-bar:20;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.9;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-feature-settings:&quot;kern&quot; 1;
+}
+::selection{background:var(--accent-soft);color:var(--accent-deep)}
+
+/* reading progress bar */
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:var(--z-bar);transition:width .1s linear}
+@media (prefers-reduced-motion:reduce){.progress{transition:none}}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+
+/* ---------- COVER ---------- */
+.cover{max-width:52rem;margin:0 auto;padding:clamp(3.5rem,8vw,6.5rem) 1.5rem clamp(2rem,4vw,3rem)}
+.kicker{display:inline-flex;align-items:center;gap:.6em;font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.6rem}
+.kicker::before{content:&quot;&quot;;width:1.6rem;height:1px;background:var(--accent)}
+.cover h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.12;letter-spacing:-.01em;
+  margin:0 0 1.2rem;color:var(--ink);text-wrap:balance;max-width:20ch;
+}
+.cover .subtitle{font-size:clamp(1.02rem,2.2vw,1.22rem);color:var(--ink-soft);
+  line-height:1.6;max-width:46ch;margin:0 0 2rem;font-weight:400}
+.cover .subtitle em{font-style:normal;color:var(--accent-deep)}
+.meta-row{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;align-items:center;
+  padding-top:1.4rem;border-top:1px solid var(--rule);font-size:.86rem;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:.45em;padding:.28em .8em;border-radius:999px;
+  background:var(--accent-tint);color:var(--accent-deep);font-weight:600;font-size:.78rem;letter-spacing:.02em}
+.badge .dot{width:.5em;height:.5em;border-radius:50%;background:var(--accent)}
+.kw{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;padding:0;margin:1.6rem 0 0}
+.kw li{font-size:.78rem;color:var(--ink-soft);padding:.3em .8em;border:1px solid var(--rule);
+  border-radius:6px;background:var(--surface)}
+
+/* ---------- LAYOUT ---------- */
+.layout{max-width:74rem;margin:0 auto;padding:0 1.5rem 5rem;
+  display:grid;grid-template-columns:1fr;gap:2.5rem}
+@media (min-width:1080px){
+  .layout{grid-template-columns:15rem minmax(0,1fr);gap:4rem;align-items:start}
+}
+
+/* ---------- TOC ---------- */
+.toc{font-size:.85rem}
+.toc&gt;summary.toc-title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0 0 1rem;padding-bottom:.7rem;border-bottom:1px solid var(--rule);
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.toc&gt;summary.toc-title::-webkit-details-marker{display:none}
+.toc&gt;summary.toc-title::after{content:&quot;&quot;;width:.46rem;height:.46rem;flex:0 0 auto;margin-bottom:.18em;
+  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease}
+.toc[open]&gt;summary.toc-title::after{transform:rotate(-135deg)}
+.toc:not([open])&gt;summary.toc-title{margin-bottom:0}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+.toc li{margin:0}
+.toc a{display:block;color:var(--ink-soft);padding:.42em 0 .42em .9rem;
+  border-left:1px solid var(--rule-soft);line-height:1.4;transition:color .18s,border-color .18s}
+.toc a:hover{color:var(--ink);text-decoration:none;border-left-color:var(--accent-soft)}
+.toc a.active{color:var(--accent-deep);font-weight:600;border-left-color:var(--accent)}
+@media (min-width:1080px){
+  .toc{position:sticky;top:2.2rem;max-height:calc(100vh - 4rem);overflow-y:auto;
+    padding-right:.4rem;-webkit-overflow-scrolling:touch}
+  .toc::-webkit-scrollbar{width:5px}
+  .toc::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+  .toc&gt;summary.toc-title{pointer-events:none}
+  .toc&gt;summary.toc-title::after{display:none}
+}
+@media (max-width:1079px){
+  .toc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.05rem 1.15rem}
+  .toc a{padding-top:.62em;padding-bottom:.62em}
+}
+
+/* ---------- PROSE ---------- */
+.prose{max-width:var(--maxw);min-width:0}
+.chapter{padding-top:1rem;margin-bottom:2.4rem}
+.chapter+.chapter{border-top:1px solid var(--rule-soft);margin-top:1rem;padding-top:2.8rem}
+.ch-head{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.1rem);
+  line-height:1.22;letter-spacing:-.005em;color:var(--ink);margin:0 0 1.4rem;
+  scroll-margin-top:1.5rem;text-wrap:balance;display:flex;align-items:baseline;gap:.7rem}
+.ch-rule{flex:0 0 auto;width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);
+  transform:translateY(-.18em)}
+h3{font-family:var(--serif);font-weight:600;font-size:1.28rem;line-height:1.35;
+  color:var(--ink);margin:2.4rem 0 .9rem;letter-spacing:-.003em;scroll-margin-top:1.5rem}
+h4{font-weight:700;font-size:1.02rem;color:var(--accent-deep);margin:1.8rem 0 .7rem;letter-spacing:.01em}
+.prose p{margin:0 0 1.1rem;color:var(--ink-soft);text-wrap:pretty}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{color:var(--ink);font-style:italic}
+.prose&gt;section p{hyphens:none}
+
+/* lists */
+.prose ul,.prose ol{margin:0 0 1.3rem;padding-left:0;color:var(--ink-soft)}
+.prose ul{list-style:none}
+.prose ul li{position:relative;padding-left:1.5rem;margin:.5em 0}
+.prose ul li::before{content:&quot;&quot;;position:absolute;left:.2rem;top:.72em;width:.42rem;height:.42rem;
+  border-radius:50%;border:1.5px solid var(--accent);background:transparent}
+.prose ol{list-style:none;counter-reset:li}
+.prose ol li{position:relative;padding-left:2.1rem;margin:.7em 0;counter-increment:li}
+.prose ol li::before{content:counter(li);position:absolute;left:0;top:.05em;
+  width:1.5rem;height:1.5rem;display:grid;place-items:center;font-family:var(--serif);
+  font-size:.82rem;font-weight:600;color:var(--accent-deep);background:var(--accent-tint);border-radius:50%}
+.prose li strong:first-child{color:var(--ink)}
+
+/* code */
+code{font-family:&quot;SF Mono&quot;,ui-monospace,&quot;JetBrains Mono&quot;,Menlo,monospace;font-size:.85em;
+  background:var(--surface-2);padding:.12em .4em;border-radius:4px;color:var(--accent-deep)}
+
+/* ---------- NOTE / CALLOUT ---------- */
+.note{position:relative;background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1.1rem 1.3rem 1.1rem 2.5rem;margin:1.5rem 0;font-size:.96rem}
+.note .note-mark{position:absolute;left:1rem;top:1.25rem;width:1rem;height:1rem;border-radius:50%;
+  background:var(--accent-tint)}
+.note .note-mark::after{content:&quot;i&quot;;position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-style:italic;font-size:.7rem;font-weight:600;color:var(--accent-deep)}
+.note p{margin:0;color:var(--ink-soft)}
+.note strong{color:var(--accent-deep)}
+
+/* ---------- TABLES ---------- */
+.table-wrap{margin:1.6rem 0;overflow-x:auto;border-radius:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.92rem;line-height:1.55;min-width:30rem}
+thead th{text-align:left;font-weight:700;color:var(--ink);padding:.85em 1em;
+  background:var(--surface);border-bottom:2px solid var(--accent);white-space:nowrap;vertical-align:bottom}
+tbody td{padding:.8em 1em;border-bottom:1px solid var(--rule);color:var(--ink-soft);vertical-align:top}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+tbody tr:hover td{background:var(--surface)}
+table strong{color:var(--ink)}
+td:first-child{color:var(--ink)}
+
+/* signal lights */
+.sig{display:inline-flex;align-items:center;gap:.5em;font-weight:600;white-space:nowrap}
+.sig .dot{width:.7em;height:.7em;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+.sig-g{color:var(--g)} .sig-g .dot{background:var(--g)}
+.sig-y{color:var(--y)} .sig-y .dot{background:var(--y)}
+.sig-r{color:var(--r)} .sig-r .dot{background:var(--r)}
+
+/* ---------- footnotes / references ---------- */
+.fnref{font-feature-settings:&quot;sups&quot;;line-height:0}
+.fnref a{font-size:.72em;font-weight:600;padding:0 .15em;color:var(--accent);
+  text-decoration:none;vertical-align:super}
+.fnref a:hover{text-decoration:underline}
+#sec-12 .ref-entry{display:grid;grid-template-columns:2rem 1fr;gap:.7rem;
+  padding:.85rem 0;border-bottom:1px solid var(--rule-soft);font-size:.86rem;line-height:1.65;
+  scroll-margin-top:2rem}
+.ref-entry{display:grid;grid-template-columns:2rem 1fr;gap:.7rem;
+  padding:.85rem 0;border-bottom:1px solid var(--rule-soft);font-size:.86rem;line-height:1.65;
+  scroll-margin-top:2rem;color:var(--muted)}
+.ref-entry:target{background:var(--accent-tint);border-radius:8px;
+  padding-left:.7rem;padding-right:.7rem;margin:0 -.7rem}
+.ref-num{font-family:var(--serif);font-weight:600;color:var(--accent-deep);text-align:right;
+  font-size:.9rem;padding-top:.05em}
+.ref-body{color:var(--muted)}
+.ref-body em{color:var(--ink-soft);font-style:italic}
+.ref-body strong{color:var(--ink-soft)}
+.fn-back{font-size:.85em;margin-left:.2em;text-decoration:none;opacity:.7}
+.fn-back:hover{opacity:1}
+
+.fineprint{font-size:.82rem;color:var(--muted);font-style:italic;line-height:1.7}
+.endmark{text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted);
+  margin:2.5rem 0 1rem;letter-spacing:.05em}
+
+/* footer */
+.foot{max-width:74rem;margin:0 auto;padding:2.5rem 1.5rem 4rem;border-top:1px solid var(--rule);
+  color:var(--muted);font-size:.8rem;line-height:1.7}
+.foot strong{color:var(--ink-soft)}
+
+/* reveal */
+.chapter{opacity:1}
+.reveal{opacity:0;transform:translateY(14px)}
+.reveal.shown{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.reveal.shown{opacity:1;transform:none;transition:none}
+}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .cover{padding-top:3rem}
+  .note{padding-left:2.3rem}
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;progress&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+
+&lt;header class=&quot;cover&quot;&gt;
+  &lt;div class=&quot;kicker&quot;&gt;机密 · 内部立项决策材料&lt;/div&gt;
+  &lt;h1&gt;女性健康可穿戴电刺激产品 · 立项调研报告&lt;/h1&gt;
+  &lt;p class=&quot;subtitle&quot;&gt;以原发性痛经为主打场景的非药物镇痛贴片(经期助眠 / 更年期舒缓为产品线延展)&lt;/p&gt;
+  &lt;ul class=&quot;kw&quot;&gt;&lt;li&gt;经皮电刺激(TENS/TEAS)&lt;/li&gt;&lt;li&gt;原发性痛经&lt;/li&gt;&lt;li&gt;非药物镇痛&lt;/li&gt;&lt;li&gt;可穿戴贴片&lt;/li&gt;&lt;li&gt;第二类医疗器械&lt;/li&gt;&lt;li&gt;女性健康(Femtech)&lt;/li&gt;&lt;/ul&gt;
+  &lt;div class=&quot;meta-row&quot;&gt;
+    &lt;span class=&quot;badge&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;内部立项决策材料(机密)&lt;/span&gt;
+    &lt;span&gt;经皮电刺激 · 非药物镇痛 · 女性健康&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;layout&quot;&gt;
+  &lt;details class=&quot;toc&quot; open&gt;
+    &lt;summary class=&quot;toc-title&quot;&gt;目录&lt;/summary&gt;
+    &lt;ol&gt;&lt;li&gt;&lt;a href=&quot;#sec-1&quot; data-target=&quot;sec-1&quot;&gt;〇、阅读前置:本报告的科学与合规立场&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-2&quot; data-target=&quot;sec-2&quot;&gt;一、执行摘要&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-3&quot; data-target=&quot;sec-3&quot;&gt;二、需求与市场:为什么这个场景真实存在&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-4&quot; data-target=&quot;sec-4&quot;&gt;三、证据链:电刺激镇痛的科学背书(详版)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-5&quot; data-target=&quot;sec-5&quot;&gt;四、产品设计与商业化包装&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-6&quot; data-target=&quot;sec-6&quot;&gt;五、竞品分析&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-7&quot; data-target=&quot;sec-7&quot;&gt;六、合规边界:能说什么、不能说什么&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-8&quot; data-target=&quot;sec-8&quot;&gt;七、如何验证效果(对比传统方法)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-9&quot; data-target=&quot;sec-9&quot;&gt;八、定价与商业化&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-10&quot; data-target=&quot;sec-10&quot;&gt;九、专家资源与背书策略&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-11&quot; data-target=&quot;sec-11&quot;&gt;十、结论与下一步建议&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-12&quot; data-target=&quot;sec-12&quot;&gt;参考文献&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
+  &lt;/details&gt;
+  &lt;main class=&quot;prose&quot;&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-1&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;〇、阅读前置:本报告的科学与合规立场&lt;/h2&gt;
+&lt;p&gt;本报告把现有的电刺激贴片硬件重新定位为面向女性健康的消费医疗产品。在展开之前,先确立三条贯穿全文的基本立场——它们直接决定了&quot;我们能做什么、不能说什么&quot;。&lt;/p&gt;
+&lt;h3&gt;立场一:卖点押&quot;神经镇痛机制&quot;,不押&quot;穴位玄学&quot;&lt;/h3&gt;
+&lt;p&gt;针灸/穴位的疗效在严格对照试验中,&lt;strong&gt;真穴位 vs 假穴位(sham)的差异往往很小甚至不显著&lt;/strong&gt;。这意味着:即便针灸/穴位刺激有效,效果很可能主要来自&lt;strong&gt;电刺激/针刺本身的神经生理作用&lt;/strong&gt;(闸门控制理论 + 内啡肽释放),而非&quot;扎对了某个穴位&quot;。&lt;/p&gt;
+&lt;p&gt;因此本产品的科学叙事建立在有明确机制、有RCT证据的&lt;strong&gt;经皮电刺激镇痛&lt;/strong&gt;之上;穴位定位仅降级为&quot;优化电极布点位置的工程经验依据&quot;,既保留中医语境下的用户亲和力,又不把科学信誉押在争议点上。&lt;/p&gt;
+&lt;h3&gt;立场二:主打有直接证据的场景——原发性痛经&lt;/h3&gt;
+&lt;p&gt;痛经是&lt;strong&gt;唯一&lt;/strong&gt;同时满足以下全部条件的候选场景:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;有 TENS 直接 RCT / Meta 分析证据(详见第三章);&lt;/li&gt;&lt;li&gt;有 Cochrane 系统综述这一医学证据&quot;金标准&quot;的背书;&lt;/li&gt;&lt;li&gt;海外已有 FDA 510(k) 清关的同类可穿戴设备(Livia 等);&lt;/li&gt;&lt;li&gt;消费人群清晰、易触达(育龄女性)、高频刚需;&lt;/li&gt;&lt;li&gt;形态上可与国内&quot;暖宫仪/理疗仪&quot;形成差异化。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;立场三:合规是地基&lt;/h3&gt;
+&lt;p&gt;在中国,凡通过电流作用于人体、宣称&quot;缓解疼痛/治疗&quot;的设备,基本按&lt;strong&gt;第二类医疗器械&lt;/strong&gt;管理。是否持证,直接决定可宣称范围。拿证前只能用&quot;舒缓/热敷/按摩&quot;等非医疗表述。全文每条功效宣称均标注合规红绿灯(第六章)。&lt;/p&gt;
+&lt;h3&gt;明确放弃的方向(前期调研已排除)&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;方向&lt;/th&gt;&lt;th&gt;证据现状&lt;/th&gt;&lt;th&gt;风险&lt;/th&gt;&lt;th&gt;结论&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;儿童长高&lt;/td&gt;&lt;td&gt;零临床证据,机制不成立(身高由生长板/生长激素/营养/遗传决定)&lt;/td&gt;&lt;td&gt;媒体已曝光&quot;增高贴/增高神器&quot;乱象,监管+舆论风险极高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;排除&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;儿童厌食&lt;/td&gt;&lt;td&gt;几乎无直接证据,仅脑瘫患儿咀嚼肌电刺激改善吞咽的边缘研究&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;排除&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;护眼/近视&lt;/td&gt;&lt;td&gt;本轮调研无正面证据&lt;/td&gt;&lt;td&gt;近视防控是国家级强监管领域,&quot;治疗近视&quot;极易触红线&lt;/td&gt;&lt;td&gt;&lt;strong&gt;排除&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-2&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;一、执行摘要&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;一句话结论:&lt;/strong&gt; 建议立项,基于现有电刺激贴片硬件,以&lt;strong&gt;原发性痛经的非药物镇痛&lt;/strong&gt;为首发场景切入女性健康赛道,经期助眠与更年期舒缓为产品线延展。该方向是&quot;有证据 + 合规可做 + 有商业先例 + 可差异化&quot;的唯一交集。&lt;/p&gt;
+&lt;h3&gt;1.1 为什么是痛经:候选场景横向对比&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;候选场景&lt;/th&gt;&lt;th&gt;证据强度&lt;/th&gt;&lt;th&gt;人群可触达&lt;/th&gt;&lt;th&gt;合规空间&lt;/th&gt;&lt;th&gt;结论&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;原发性痛经&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;强(多篇Meta + Cochrane)&lt;/td&gt;&lt;td&gt;高(育龄女性)&lt;/td&gt;&lt;td&gt;清晰(镇痛)&lt;/td&gt;&lt;td&gt;★ &lt;strong&gt;首发主打&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;经期/术后助眠&lt;/td&gt;&lt;td&gt;中(偏术后人群)&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;偏窄(易踩&quot;治失眠&quot;)&lt;/td&gt;&lt;td&gt;第二适应症延展&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;更年期舒缓&lt;/td&gt;&lt;td&gt;中(针灸有正面证据)&lt;/td&gt;&lt;td&gt;中(40+女性)&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;产品线协同延展&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;慢性/肩颈疼痛&lt;/td&gt;&lt;td&gt;强&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;清晰但红海&lt;/td&gt;&lt;td&gt;放弃(同质化严重)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;儿童长高/厌食/护眼&lt;/td&gt;&lt;td&gt;无 / 极弱&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;极高风险&lt;/td&gt;&lt;td&gt;已排除&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h3&gt;1.2 核心卖点(对外叙事的四个支柱)&lt;/h3&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;无药物、无激素:&lt;/strong&gt; 不经胃肠、不影响月经周期,规避 NSAIDs(布洛芬等)/激素避孕药的副作用与禁忌——这是相对止痛药的核心差异点。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;起效快、可穿戴:&lt;/strong&gt; 电刺激镇痛通常在开机后数十秒到数分钟内起效(Livia 宣称 30–60 秒),贴片可在衣物下日常佩戴,边工作/通勤边缓解。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;机制可解释、有证据:&lt;/strong&gt; 基于闸门控制理论与内啡肽释放;Cochrane 与多篇 Meta 分析支持 TENS 缓解痛经。科学叙事经得起医生与监管审视。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;智能化升级:&lt;/strong&gt; 结合 APP 的强度自适应、经期管理、用药替代追踪,把一次性&quot;理疗仪&quot;升级为可持续的&quot;经期健康管理入口&quot;。&lt;/li&gt;&lt;/ol&gt;
+&lt;h3&gt;1.3 关键风险提示&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;证据迁移风险:&lt;/strong&gt; 现有 RCT/Meta 多为 TENS 且部分以成人/术后人群为主,迁移到我方贴片形态严格说仍需自有验证数据。可引用作&quot;机理与方向支持&quot;,&lt;strong&gt;不可&lt;/strong&gt;直接宣称&quot;我的产品 = 这些临床效果&quot;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;合规风险:&lt;/strong&gt; 镇痛宣称 = 二类医疗器械。无证前只能走舒缓/热敷类目(详见第六章)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;竞争风险:&lt;/strong&gt; 海外 Livia/Ovira 已验证品类并占据心智;国内低频理疗仪/暖宫仪同质化。差异化必须靠&quot;形态 + 智能化 + 女性健康场景化&quot;,而非单纯硬件参数。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;1.4 风险矩阵(概率 × 影响)&lt;/h3&gt;
+&lt;p&gt;把 1.3 的三条风险扩展为可管理清单。⛔ 为决策门槛项(评估不利应触发 No-Go 或方案重排)。&lt;/p&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;风险&lt;/th&gt;&lt;th&gt;类别&lt;/th&gt;&lt;th&gt;概率&lt;/th&gt;&lt;th&gt;影响&lt;/th&gt;&lt;th&gt;暴露&lt;/th&gt;&lt;th&gt;缓解措施&lt;/th&gt;&lt;th&gt;责任方&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;R1 ⛔&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;注册被要求临床试验,周期/成本跳升(见 6.3)&lt;/td&gt;&lt;td&gt;合规&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;早期法规顾问确认免临床路径;阶段一舒缓类目先上市&lt;/td&gt;&lt;td&gt;法规&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;R2 ⛔&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;自有产品效果不达预期 / SHAM 做不出显著差异(痛经安慰剂应答高)&lt;/td&gt;&lt;td&gt;临床&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;先做小样本交叉验证;参数对齐文献;预登记终点&lt;/td&gt;&lt;td&gt;临床/研发&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;R3 ⛔&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;知识产权侵权(波形/电极/形态对标 Livia/Ovira)&lt;/td&gt;&lt;td&gt;IP&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;立项前 FTO(自由实施)检索 + 规避设计;必要时授权&lt;/td&gt;&lt;td&gt;法务/研发&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R4&lt;/td&gt;&lt;td&gt;耗材复购不及预期,LTV 崩(见 8.3 生死线)&lt;/td&gt;&lt;td&gt;商业&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;订阅设计 + 用药替代数据反馈 + 会员绑定&lt;/td&gt;&lt;td&gt;运营&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R5&lt;/td&gt;&lt;td&gt;DTC 获客成本过高(流量贵)&lt;/td&gt;&lt;td&gt;商业&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;内容种草 + 众筹冷启动 + 私域复购,死守 CAC&amp;lt;¥220&lt;/td&gt;&lt;td&gt;市场&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R6&lt;/td&gt;&lt;td&gt;现有硬件不达目标态,需重开模&lt;/td&gt;&lt;td&gt;技术&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中–高&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;立项前硬件能力核对,差距项排期&lt;/td&gt;&lt;td&gt;硬件&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R7&lt;/td&gt;&lt;td&gt;安全/不良事件舆情(电流 + 经期敏感场景)&lt;/td&gt;&lt;td&gt;品牌/安全&lt;/td&gt;&lt;td&gt;低&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;禁忌症明示、限流设计、客诉 SOP、严守宣称&lt;/td&gt;&lt;td&gt;医学/品控&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R8&lt;/td&gt;&lt;td&gt;宣称踩广告法红线&lt;/td&gt;&lt;td&gt;合规&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;第六章红绿灯表落地为文案审核 SOP&lt;/td&gt;&lt;td&gt;法务/市场&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R9&lt;/td&gt;&lt;td&gt;APP 健康数据隐私(《个人信息保护法》)&lt;/td&gt;&lt;td&gt;合规&lt;/td&gt;&lt;td&gt;低–中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;最小必要采集、合规架构、明确授权&lt;/td&gt;&lt;td&gt;法务/产品&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;R10&lt;/td&gt;&lt;td&gt;竞品已卡位:易舒美/依士文(已核实持多张二类&quot;低频电子脉冲治疗仪&quot;注册证+自有产线、国家级高新技术企业)占&quot;证&quot;、ULUCKY(暖宫腰带+经期 APP)占&quot;品牌+APP&quot;;&quot;国内空白/首证&quot;判断不成立,叠加倍益康等上市厂家有入场能力&lt;/td&gt;&lt;td&gt;竞争&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;&lt;strong&gt;高&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;不打&quot;首证&quot;,改打四合一执行(贴片形态+证+临床数据+品牌生态);加速迭代 + 耗材绑定建立切换成本&lt;/td&gt;&lt;td&gt;战略&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;读法:&lt;/strong&gt; R1–R5、R10 为高暴露项,其中 R1/R2/R3 为决策门槛,建议在立项决议中各设一个验证动作与判定阈值(对应第十章行动清单)。R4/R5 非 Go/No-Go,而是上市后须持续盯防的运营生死线,与 8.3 单位经济直接挂钩。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-3&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;二、需求与市场:为什么这个场景真实存在&lt;/h2&gt;
+&lt;h3&gt;2.1 痛经是高发、高频、低满意度的真实需求&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;发病率极高:&lt;/strong&gt; 原发性痛经影响约 &lt;strong&gt;50%–90%&lt;/strong&gt; 的经期人群,造成下腹痉挛痛,并常伴恶心、疲劳、腰背痛等全身症状。多个流行病学研究指出其显著影响日常活动、学习/工作效率与生活质量&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-arik&quot; href=&quot;#fn-arik&quot; aria-label=&quot;参考文献 1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-pmid41790650&quot; href=&quot;#fn-pmid41790650&quot; aria-label=&quot;参考文献 2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;现有方案不满意:&lt;/strong&gt; NSAIDs 和激素避孕药是主流,但存在疗效有限、胃肠刺激、不能/不愿用药等问题。Cochrane 指出,部分女性因不良反应或其他健康问题无法使用这些药物&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-cochrane&quot; href=&quot;#fn-cochrane&quot; aria-label=&quot;参考文献 3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;高频刚需:&lt;/strong&gt; 每月发作、可预期、持续数年——这是消费医疗里少有的&quot;高频 + 刚需 + 自付意愿强&quot;的组合。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;2.2 &quot;经期经济&quot;与女性健康消费升级&lt;/h3&gt;
+&lt;p&gt;女性健康(Femtech)是近年增长最快的消费医疗赛道之一。经期相关产品正从&quot;卫生用品&quot;向&quot;健康管理&quot;升级,消费者对&quot;无药物、可穿戴、有科技感、颜值高&quot;的产品支付意愿显著。海外 Livia 以远高于普通 TENS 机的价格定位仍获成功(Indiegogo 众筹销售额超 174 万美元),验证了&quot;为体验和品牌付费&quot;的逻辑成立&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-ipulse&quot; href=&quot;#fn-ipulse&quot; aria-label=&quot;参考文献 4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;延展场景的人群协同:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;经期助眠:&lt;/strong&gt; 痛经常伴经期睡眠质量下降,同一人群、同一 APP 可顺势延展。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;更年期舒缓:&lt;/strong&gt; 40+ 女性的潮热、睡眠、情绪困扰,针灸/TEAS 有正面证据,与品牌&quot;全周期女性健康&quot;定位协同。&lt;/li&gt;&lt;li&gt;→ 三个场景共享同一套&quot;女性 + 电刺激舒缓 + APP 管理&quot;的产品与品牌资产,降低获客与研发边际成本。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;2.3 市场规模测算:TAM / SAM / SOM(中国口径)&lt;/h3&gt;
+&lt;p&gt;把&quot;痛经高发&quot;从论断变成量级。两条线交叉验证:人群漏斗(自上而下)与已公开的中国痛经市场盘子(自下而上)。所有数字均为测算假设,关键假设标注依据与待校准项。&lt;/p&gt;
+&lt;h4&gt;(1)人群漏斗(中国)&lt;/h4&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;层级&lt;/th&gt;&lt;th&gt;口径&lt;/th&gt;&lt;th&gt;取值&lt;/th&gt;&lt;th&gt;人数(测算)&lt;/th&gt;&lt;th&gt;依据 / 待校准&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;育龄女性&lt;/td&gt;&lt;td&gt;15–49 岁&lt;/td&gt;&lt;td&gt;约 3 亿&lt;/td&gt;&lt;td&gt;3 亿&lt;/td&gt;&lt;td&gt;全国女性 6.88 亿(2025 抽样),育龄段估算,待按最新分龄数据校准&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 原发性痛经发生率&lt;/td&gt;&lt;td&gt;有原发性痛经&lt;/td&gt;&lt;td&gt;60%&lt;/td&gt;&lt;td&gt;1.8 亿&lt;/td&gt;&lt;td&gt;国内口径差异大:2000 年全国 56.06%、2018 CBNData 60.7%、2022 谷雨数据原发性 77.1%,取中性偏保守 60%&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 中重度 / 明显影响日常&lt;/td&gt;&lt;td&gt;有缓解动机&lt;/td&gt;&lt;td&gt;30%&lt;/td&gt;&lt;td&gt;约 5400 万&lt;/td&gt;&lt;td&gt;谷雨数据中度 53.3% + 重度 13.0%;此处保守取痛经人群 30%&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;= TAM(可货币化核心人群)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 5400 万&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;理论上限&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 城镇 + 线上消费力 + 非药物可穿戴支付意愿&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;40%&lt;/td&gt;&lt;td&gt;约 2160 万&lt;/td&gt;&lt;td&gt;城镇化率 67.7%;支付意愿为最弱假设,待一手调研&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;= SAM(可服务人群)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 2160 万&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h4&gt;(2)市场价值(中国)与可获取份额&lt;/h4&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;盘子锚点:&lt;/strong&gt; 中国痛经患者已超 3 亿、痛经治疗市场约 300 亿元/年(2020),但其中以药物(NSAIDs/中成药)为主,非药物可穿戴器械占比极低,这正是结构性切入点。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;SAM 年化理论规模:&lt;/strong&gt; 2160 万 × 稳态 ARPU ¥480(见 8.3)≈ &lt;strong&gt;¥104 亿/年&lt;/strong&gt;(理论天花板,非可获取收入)。&lt;/li&gt;&lt;/ul&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;情景&lt;/th&gt;&lt;th&gt;3 年累计渗透率(占 SAM)&lt;/th&gt;&lt;th&gt;累计付费用户&lt;/th&gt;&lt;th&gt;备注&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;保守&lt;/td&gt;&lt;td&gt;1%&lt;/td&gt;&lt;td&gt;约 22 万&lt;/td&gt;&lt;td&gt;获客难、复购弱&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;中性&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;3%&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 65 万&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;基准情景&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;乐观&lt;/td&gt;&lt;td&gt;6%&lt;/td&gt;&lt;td&gt;约 130 万&lt;/td&gt;&lt;td&gt;品类教育成功 + 耗材生态成型&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;关键诚实提示:&lt;/strong&gt; 漏斗最脆弱的两个假设是&quot;40% 支付意愿&quot;与&quot;3% 渗透率&quot;,二者直接决定结论上下浮动数倍;且国内&quot;非药物可穿戴痛经&quot;品类仍处早期教育阶段。立项后第一笔预算应投向国内育龄女性付费意愿与价格敏感度的一手调研,以收窄漏斗误差。&lt;br&gt;&lt;strong&gt;数据来源:&lt;/strong&gt; 国家统计局《2025 年全国 1% 人口抽样调查主要数据公报》(2026-05,女性 6.88 亿、城镇化 67.74%);博研咨询《中国痛经治疗行业研究报告》(2024,痛经患者超 3 亿、市场约 300 亿元);腾讯新闻谷雨数据《2022 月经认知与现状报告》(原发性痛经 77.1%,中度 53.3%、重度 13.0%);CBNData《2018 中国女性生理健康白皮书》(痛经 60.7%)。以上为公开二手数据,口径不一,仅用于框定量级。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-4&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;三、证据链:电刺激镇痛的科学背书(详版)&lt;/h2&gt;
+&lt;p&gt;本章是整个立项的&quot;地基&quot;。结构:机制 → 痛经直接证据(逐篇详述) → 权威背书 → 延展场景证据 → 与针灸的关系澄清。每篇研究均给出样本量、关键结果与可引用出处(见文末参考文献)。&lt;/p&gt;
+&lt;h3&gt;3.1 机制层:为什么电刺激能镇痛(可解释、可对外讲)&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;(1)闸门控制理论(Gate Control Theory)&lt;/strong&gt; 电流刺激体表的粗神经纤维(Aβ纤维),在脊髓后角&quot;占用&quot;了疼痛信号(经 Aδ/C 纤维)向大脑传递的通道,使疼痛信号被削弱或阻断——通俗讲就是&quot;让神经忙起来,顾不上传痛&quot;。这是 1965 年 Melzack &amp;amp; Wall 提出的经典疼痛调控理论,也是几乎所有 TENS 镇痛产品的机制基础&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-cochrane&quot; aria-label=&quot;参考文献 3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-arik&quot; aria-label=&quot;参考文献 1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(2)内啡肽与内源性镇痛&lt;/strong&gt; 特定频率(尤其低频/疏密波)的电刺激可促进人体释放 β-内啡肽等内源性阿片肽,提升内源性抑制、降低中枢兴奋性。一篇 TENS 痛经 Meta 的机制综述明确表述:TENS 通过&quot;疼痛闸门机制、增强内源性抑制、降低中枢兴奋性&quot;实现镇痛&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-arik&quot; aria-label=&quot;参考文献 1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;。Cochrane 中文版亦表述:TENS 可帮助身体产生&quot;脑内啡&quot;这一天然止痛剂&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-cochrane&quot; aria-label=&quot;参考文献 3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这套机制叙事的价值:&lt;/strong&gt; 海外标杆 Livia 的全部官方话术正是建立在这两点之上——&quot;基于闸门控制理论,削弱疼痛感知并刺激内啡肽释放&quot;&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-healthywomen&quot; href=&quot;#fn-healthywomen&quot; aria-label=&quot;参考文献 5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;。我们可以采用完全相同、且经得起推敲的机制叙事,这是合规且科学的&quot;安全区&quot;。&lt;/p&gt;
+&lt;h3&gt;3.2 痛经直接证据:逐篇详述&lt;/h3&gt;
+&lt;p&gt;下表是本立项最关键的证据集合,按证据等级从高到低排列。&lt;/p&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;研究(年/类型)&lt;/th&gt;&lt;th&gt;样本/设计&lt;/th&gt;&lt;th&gt;关键定量结果&lt;/th&gt;&lt;th&gt;出处&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Cochrane 系统综述&lt;/strong&gt;(2024更新)&lt;/td&gt;&lt;td&gt;证据金标准,汇总多项RCT&lt;/td&gt;&lt;td&gt;高频与低频TENS对比安慰剂/不治疗&lt;strong&gt;均可减缓痛经&lt;/strong&gt;;TENS价格低、副作用可能比药物更少;次要指标(不良反应、生活质量)证据仍不足&lt;/td&gt;&lt;td&gt;CD013331&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-cochrane&quot; aria-label=&quot;参考文献 3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Arik 等 Meta 分析&lt;/strong&gt;(2022,&lt;em&gt;Explore&lt;/em&gt;)&lt;/td&gt;&lt;td&gt;系统综述 + Meta&lt;/td&gt;&lt;td&gt;TENS显著降低痛经VAS疼痛评分;明确机制为闸门控制 + 内源性抑制&lt;/td&gt;&lt;td&gt;Explore 2022;18(1):108-113&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-arik&quot; aria-label=&quot;参考文献 1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;&lt;strong&gt;最新 Meta 分析&lt;/strong&gt;(2026)&lt;/td&gt;&lt;td&gt;多项RCT,森林图分析VAS/止痛持续时间&lt;/td&gt;&lt;td&gt;TENS组VAS均差(MD)显著优于对照;按基线疼痛严重度(VAS&amp;gt;7 vs ≤7)做亚组分析,重度痛经获益更明显&lt;/td&gt;&lt;td&gt;PMID 41790650&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-pmid41790650&quot; aria-label=&quot;参考文献 2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Guy 等 双盲交叉 RCT&lt;/strong&gt;(2022,&lt;em&gt;Prog Urol&lt;/em&gt;)&lt;/td&gt;&lt;td&gt;40名需用止痛药的痛经女性,TENS vs SHAM 随机交叉、双盲&lt;/td&gt;&lt;td&gt;便携TENS显著降低VAS(0–100mm);交叉分析显示TENS周期止痛药(对乙酰氨基酚/布洛芬等效)消耗量下降&lt;/td&gt;&lt;td&gt;Prog Urol 2022;32(7):487-497;PMID 35249825&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-guy&quot; href=&quot;#fn-guy&quot; aria-label=&quot;参考文献 6&quot;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;&lt;strong&gt;McLagan 等 RCT&lt;/strong&gt;(2024,&lt;em&gt;Womens Health&lt;/em&gt;)&lt;/td&gt;&lt;td&gt;痛经女性,TENS用于经期镇痛的随机对照&lt;/td&gt;&lt;td&gt;支持TENS缓解经期疼痛,作为非药物方案&lt;/td&gt;&lt;td&gt;Womens Health 2024;20;PMID 39066557&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-mclagan&quot; href=&quot;#fn-mclagan&quot; aria-label=&quot;参考文献 7&quot;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Lee 等 RCT&lt;/strong&gt;(2015,&lt;em&gt;EJOG&lt;/em&gt;)&lt;/td&gt;&lt;td&gt;高频TENS + 热疗便携设备,随机单盲安慰剂对照&lt;/td&gt;&lt;td&gt;高频TENS联合热疗的便携设备在缓解痛经上有效&lt;/td&gt;&lt;td&gt;EJOG 2015;194:58-63;PMID 26340453&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-lee&quot; href=&quot;#fn-lee&quot; aria-label=&quot;参考文献 8&quot;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;对这组证据的诚实解读:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;痛经 TENS 证据是三个候选场景里&lt;strong&gt;最成熟的&lt;/strong&gt;:有 Cochrane 背书、有多篇独立 Meta、有双盲交叉 RCT、有便携设备先例。&lt;/li&gt;&lt;li&gt;但 Cochrane 同时指出:现有研究在&lt;strong&gt;不良反应、生活质量、对额外止痛药需求&lt;/strong&gt;等次要指标上证据仍不足,且高频 vs 低频 TENS 的优劣、TENS 与其他疗法(穴位按压、对乙酰氨基酚、干扰电疗)的比较尚不确定,呼吁更大样本、方法更严谨的研究&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-cochrane&quot; aria-label=&quot;参考文献 3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;→ &lt;strong&gt;对外宣传&lt;/strong&gt;定位为&quot;临床研究支持的非药物镇痛方式&quot;,不夸大为&quot;治愈&quot;;&lt;strong&gt;对内研发&lt;/strong&gt;应规划自有产品的小样本验证(见第七章)。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;3.3 海外监管已认可:FDA 510(k) 先例&lt;/h3&gt;
+&lt;p&gt;Livia 设备已通过 FDA 510(k) 清关(K183110),其 510(k) 文件明确将&lt;strong&gt;痛经(menstrual cramps)纳入该 TENS 设备可治疗的疼痛类型&lt;/strong&gt;,并附有用于该用途的电极放置示意&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-fda510k&quot; href=&quot;#fn-fda510k&quot; aria-label=&quot;参考文献 9&quot;&gt;9&lt;/a&gt;&lt;/sup&gt;。这意味着:&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;品类已被监管认可:&lt;/strong&gt; &quot;可穿戴电刺激缓解痛经&quot;不是擦边概念,而是有监管先例的明确医疗用途。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;可对标的注册路径:&lt;/strong&gt; Livia 同时取得 FDA + Health Canada + CE(欧盟)三地认证,为我方出海提供清晰路线图&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-healthywomen&quot; aria-label=&quot;参考文献 5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-finvsfin&quot; href=&quot;#fn-finvsfin&quot; aria-label=&quot;参考文献 10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;3.4 延展场景证据&lt;/h3&gt;
+&lt;h4&gt;3.4.1 助眠(经期/术后睡眠)&lt;/h4&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;研究&lt;/th&gt;&lt;th&gt;样本/设计&lt;/th&gt;&lt;th&gt;关键结果&lt;/th&gt;&lt;th&gt;出处&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;TEAS改善睡眠质量 Meta(2024)&lt;/td&gt;&lt;td&gt;16项RCT,1555人(12项低/中风险偏倚)&lt;/td&gt;&lt;td&gt;TEAS显著改善睡眠质量(PSQI主指标);内关(PC6)、神门(HT7)等为常用有效刺激点&lt;/td&gt;&lt;td&gt;ScienceDirect S187638202400009X&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-teas_sleep&quot; href=&quot;#fn-teas_sleep&quot; aria-label=&quot;参考文献 11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;围术期TEAS睡眠 Meta(2024)&lt;/td&gt;&lt;td&gt;多项RCT,约1076人&lt;/td&gt;&lt;td&gt;TEAS显著改善全麻术后睡眠质量&lt;/td&gt;&lt;td&gt;DOI 10.1155/2024/6763996&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-teas_periop&quot; href=&quot;#fn-teas_periop&quot; aria-label=&quot;参考文献 12&quot;&gt;12&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;TEAS术后睡眠机制RCT&lt;/td&gt;&lt;td&gt;83人,2/100Hz疏密波,HT7/PC6/ST36,每次30min&lt;/td&gt;&lt;td&gt;术后第1、3天PSQI显著改善;伴炎症因子与氧化应激指标变化(提示机制)&lt;/td&gt;&lt;td&gt;见综述&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-teas_sleep&quot; aria-label=&quot;参考文献 11&quot;&gt;11&lt;/a&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;注意:&lt;/strong&gt; 助眠效果最强的证据集中在&lt;strong&gt;围术期/住院人群&lt;/strong&gt;,异质性高(部分Meta I²很高);迁移到大众&quot;睡不好&quot;场景证据会打折。宣称应限于&quot;辅助放松、帮助改善睡眠质量&quot;,&lt;strong&gt;避免&lt;/strong&gt;&quot;治疗失眠症&quot;。&lt;/p&gt;
+&lt;h4&gt;3.4.2 更年期&lt;/h4&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;针灸正面证据:&lt;/strong&gt; 一项覆盖862篇系统综述、横跨184种病症的总览研究(2017–2022更新)将&lt;strong&gt;更年期症状&lt;/strong&gt;列入仅10种&quot;有正面效果证据&quot;的病症之一(其余9种为慢性疼痛、下背痛、膝骨关节炎、术后恶心呕吐、偏头痛、紧张型头痛、癌症相关疲劳、辅助生殖中的女性不孕、男性慢性盆腔痛)&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-acu_overview&quot; href=&quot;#fn-acu_overview&quot; aria-label=&quot;参考文献 13&quot;&gt;13&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;方向判断:&lt;/strong&gt; 更年期可作为产品线的协同延展(与痛经共享女性人群与品牌),但其证据多为针刺/电针,迁移到经皮贴片需谨慎,建议作为二期场景而非首发。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;3.5 关键澄清:电刺激与针灸&quot;是不是一回事&quot;&lt;/h3&gt;
+&lt;p&gt;这是立项中必须想清楚的科学问题,因为它直接决定我们&quot;敢说什么&quot;。结论是:&lt;strong&gt;不能简单画等号,而这恰恰对我们有利。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;大量针灸 RCT 显示,&lt;strong&gt;真穴位针刺 vs 假穴位/非穴位针刺(sham)的效果差异往往很小甚至不显著&lt;/strong&gt;。综述性研究指出针灸治慢性痛的证据常&quot;相互矛盾且不能定论&quot;,部分源于方法学缺陷&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-acu_overview&quot; aria-label=&quot;参考文献 13&quot;&gt;13&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;这说明:针灸/穴位刺激即便有效,效果很可能主要来自&lt;strong&gt;针刺/电刺激本身的神经生理作用&lt;/strong&gt;,而非&quot;扎对了某个玄学穴位&quot;。&lt;/li&gt;&lt;/ul&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;对产品叙事的直接启示:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;不要&lt;/strong&gt;把卖点押在&quot;精准复刻 XX 穴位&quot;上(那部分最站不住、也最容易被监管和专家质疑)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;把卖点押在&lt;/strong&gt;&quot;经皮电刺激有明确神经镇痛机制 + 痛经场景有直接 RCT/Cochrane 证据 + 海外有 FDA 先例&quot;上。&lt;/li&gt;&lt;li&gt;穴位定位的价值,降级为&quot;优化电极放置位置的工程经验依据&quot;——既保留中医语境下的用户亲和力,又不把科学信誉押在争议点上。&lt;/li&gt;&lt;/ol&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-5&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;四、产品设计与商业化包装&lt;/h2&gt;
+&lt;p&gt;本章把&quot;现有电刺激贴片硬件&quot;重新包装为面向女性健康的消费医疗产品,分形态、技术、智能化、界面四个层面。&lt;/p&gt;
+&lt;h3&gt;4.1 形态设计:贴片式的差异化&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;对比维度&lt;/th&gt;&lt;th&gt;传统TENS理疗仪 / 暖宫仪&lt;/th&gt;&lt;th&gt;我方:可穿戴电刺激贴片&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;佩戴形态&lt;/td&gt;&lt;td&gt;盒式主机+导线+电极片,或腰带式暖宫器,笨重外露&lt;/td&gt;&lt;td&gt;超薄柔性贴片,贴合下腹,衣物下隐形佩戴&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;使用场景&lt;/td&gt;&lt;td&gt;多为居家静态使用&lt;/td&gt;&lt;td&gt;通勤/办公/通学全场景,边走边用&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;交互&lt;/td&gt;&lt;td&gt;机身按键,档位粗放&lt;/td&gt;&lt;td&gt;APP无级调节 + 预设方案 + 经期联动&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;颜值/情绪价值&lt;/td&gt;&lt;td&gt;医疗器械观感,冰冷&lt;/td&gt;&lt;td&gt;女性化设计,可作日常单品&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;形态是我们对标国内&quot;暖宫仪/理疗仪&quot;的核心差异点。国内同类多停留在&quot;热敷 + 粗放低频&quot;的居家器械,&lt;strong&gt;贴片式 + 全场景 + APP&lt;/strong&gt; 正是 Livia 在海外验证成功、而国内尚无人做透的打法(易舒美是老式 TENS 形态、ULUCKY 是暖宫腰带,均非一体贴片)。&lt;/p&gt;
+&lt;h3&gt;4.2 技术包装(基于现有硬件的对外表达)&lt;/h3&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;以下为&quot;对外应该长这样&quot;的目标态;各项需与硬件团队逐项核实&quot;现有设计是否已具备/可改造实现&quot;,差距项作为研发输入。&lt;/p&gt;&lt;/aside&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;智能波形:&lt;/strong&gt; 采用低频疏密波(如 2/100Hz)等经临床研究采用的镇痛参数,模拟&quot;针灸样&quot;刺激,兼顾即时镇痛与内啡肽释放(对标 Livia 的&quot;SmartWave 微脉冲&quot;;多项 TEAS 研究采用 2/100Hz 疏密波)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;强度自适应:&lt;/strong&gt; 多档(对标 Ovira 40档 / Livia 16档)无级调节,APP 记忆个人偏好强度。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;柔性贴合:&lt;/strong&gt; 集成柔性电路 + 医用级敷料,经生物相容性检测,贴合人体曲面、可活动不脱落。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;长续航 + 可充电:&lt;/strong&gt; 一次充电支撑单次经期周期使用(对标 Livia 约 8 小时续航)。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;4.3 智能化:从&quot;理疗仪&quot;到&quot;经期健康入口&quot;&lt;/h3&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;经期联动:&lt;/strong&gt; APP 记录周期,预测痛经日,提前提醒并一键启动方案。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;用药替代追踪:&lt;/strong&gt; 记录&quot;本周期少吃了几片止痛药&quot;——把 Meta 研究里&quot;减少止痛药用量&quot;的卖点,变成用户可见的数据反馈。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;方案库:&lt;/strong&gt; 痛经/助眠/舒缓不同预设波形方案,一套硬件覆盖产品线三个场景。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;数据沉淀:&lt;/strong&gt; 长期经期 + 疼痛 + 睡眠数据,为后续女性健康服务与复购建立壁垒。&lt;/li&gt;&lt;/ol&gt;
+&lt;h3&gt;4.4 界面设计方向&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;主色调:&lt;/strong&gt; 品红/暖粉为主,区别于医疗器械的冷蓝白,强化女性健康与情绪价值。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;首页:&lt;/strong&gt; 大圆形启停按钮 + 当前强度环形进度,起效即时可感(模仿&quot;开关&quot;心智,呼应 Livia&quot;痛经的关闭开关&quot;)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;核心模块:&lt;/strong&gt; 经期日历 + 疼痛记录 + 用药替代统计。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;合规:&lt;/strong&gt; 界面文案严格使用&quot;舒缓/缓解不适&quot;类表述,功效声称随注册资质解锁(见第六章)。&lt;/li&gt;&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-6&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;五、竞品分析&lt;/h2&gt;
+&lt;p&gt;分海外标杆与国内现状两层。结论:海外已跑通&quot;高溢价女性健康电刺激&quot;模式,国内并非品类空白(已有便携 TENS 痛经仪与进口产品),但&quot;一体贴片形态 + 证 backed 镇痛 + 自有临床证据 + 强品牌数据生态&quot;四者合一仍无人做透(易舒美占证、ULUCKY 占品牌+APP),主流仍停留在低价暖宫仪与医疗器械观感的理疗仪。&lt;/p&gt;
+&lt;h3&gt;5.1 海外标杆(直接对标,验证商业模式)&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;产品&lt;/th&gt;&lt;th&gt;定位/技术&lt;/th&gt;&lt;th&gt;监管资质&lt;/th&gt;&lt;th&gt;形态&lt;/th&gt;&lt;th&gt;关键打法&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Livia&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;痛经专用可穿戴电刺激;专利 SmartWave 微脉冲(改良TENS)&lt;/td&gt;&lt;td&gt;FDA + CE + Health Canada&lt;/td&gt;&lt;td&gt;贴片 + 花形电极,衣物下佩戴,16档,约8h续航&lt;/td&gt;&lt;td&gt;30–60秒起效;凝胶贴片订阅制;120天退款;Indiegogo众筹起家(&amp;gt;$174万)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Ovira&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;痛经电刺激,主打隐蔽与高自定义&lt;/td&gt;&lt;td&gt;美/加获批&lt;/td&gt;&lt;td&gt;更隐蔽,40档强度&lt;/td&gt;&lt;td&gt;强调可定制;DTC直销;凝胶贴片复购&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;OhmBody&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;神经刺激,声称减少经量/缩短经期&lt;/td&gt;&lt;td&gt;仅 wellness,非FDA清关&lt;/td&gt;&lt;td&gt;可穿戴&lt;/td&gt;&lt;td&gt;16人小样本试点;走&quot;健康产品&quot;而非医疗,规避注册&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;从 Livia 身上能学到的三件事:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;机制叙事&lt;/strong&gt; = 闸门控制 + 内啡肽 + 无药物无激素不影响周期 —— 直接可复用。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;商业模式&lt;/strong&gt; = 硬件 + 凝胶贴片订阅/复购 —— 把一次性硬件变成持续现金流。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;品牌&lt;/strong&gt; = &quot;痛经的关闭开关&quot;这类强情绪心智,而非堆砌参数。&lt;/li&gt;&lt;/ol&gt;
+&lt;p&gt;来源:mylivia.com&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-livia&quot; href=&quot;#fn-livia&quot; aria-label=&quot;参考文献 14&quot;&gt;14&lt;/a&gt;&lt;/sup&gt;;finvsfin Ovira vs Livia(2026)&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-finvsfin&quot; aria-label=&quot;参考文献 10&quot;&gt;10&lt;/a&gt;&lt;/sup&gt;;healthywomen.org(2026)&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-healthywomen&quot; aria-label=&quot;参考文献 5&quot;&gt;5&lt;/a&gt;&lt;/sup&gt;;Wikipedia IPulse Medical&lt;sup class=&quot;fnref&quot;&gt;&lt;a href=&quot;#fn-ipulse&quot; aria-label=&quot;参考文献 4&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;h3&gt;5.2 国内现状(我们的真实竞争环境)&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;低频理疗仪/TENS仪&lt;/strong&gt;(如倍益康、鱼跃、各类家用低频治疗仪):按二类医疗器械管理,通用镇痛,非经期专用,医疗器械观感,价格带宽。典型如 TENS-300 型家用低频理疗仪,脉冲频率 1–100Hz 可调、含疏密波模式(疏波5s/密波10s)&lt;sup class=&quot;fnref&quot;&gt;&lt;a id=&quot;fnref-bydrug&quot; href=&quot;#fn-bydrug&quot; aria-label=&quot;参考文献 15&quot;&gt;15&lt;/a&gt;&lt;/sup&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;暖宫仪/经期热敷器:&lt;/strong&gt; 电商热销,多为&quot;热敷 + 低频脉冲&quot;组合,定位居家、外观普通,缺乏专业证据与品牌。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;品类已有玩家,我方想押的两张牌已各被占一张(关键修正):&lt;/strong&gt; 国内并非空白,而且&quot;证&quot;和&quot;品牌+APP&quot;这两个原本设想的差异点,已分别被不同对手占住。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;易舒美(佛山依士文 / easymed)= 最该重视的对手(已核实):&lt;/strong&gt; 经企查查核验,依士文持有&lt;strong&gt;多张有效第二类&quot;低频电子脉冲治疗仪&quot;注册证&lt;/strong&gt;(痛经仪即注册于此类目)及&lt;strong&gt;自有医疗器械生产许可证&lt;/strong&gt;,累计 25 条注册证记录;系&lt;strong&gt;国家级高新技术企业&lt;/strong&gt;、20 年品牌,盆底肌+痛经仪&quot;出口居国内前列&quot;。→ &lt;strong&gt;&quot;国内首证/首创&quot;已确定被占,且对手是有研发+注册+自有产线的专业厂商,不是可轻视的弱先行者。&lt;/strong&gt; 唯一明显短板是形态偏老(控制器+导线+电极片)、弱品牌、弱 APP,也正是我方仅剩的差异化空间;反过来,&lt;strong&gt;依士文若做&quot;贴片化+品牌化&quot;反扑,其监管与制造地基比我方厚,是最该盯防的潜在对手。&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;ULUCKY(暖宫腰带):&lt;/strong&gt; 品牌化消费品 + 自有经期 APP(经期/痛经记录、九种模式、&quot;男友提醒&quot;),¥328–798;主打温灸/暖宫(wellness),部分宣传称&quot;专业级 TENS&quot;。→ &lt;strong&gt;&quot;女性品牌 + 经期 APP 生态&quot;这张牌也已被部分卡位。&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;倍益康 / 鱼跃:&lt;/strong&gt; 通用医用 TENS 理疗仪(倍益康 QL/T,川械注准 20192090218),临床通用镇痛、非经期专用;但倍益康系新三板上市(870199)、已布局女性盆底康复(2024 新获盆底二类证),&lt;strong&gt;是有研发与注册能力的潜在入场者&lt;/strong&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;TensCare(英国进口):&lt;/strong&gt; 40 档、凝胶电极、MDR/FDA/ISO,高价小众。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;真正的空白(再校准):&lt;/strong&gt; 不是&quot;有没有 TENS 痛经仪&quot;(已有),也不是&quot;有没有证或品牌 APP&quot;(易舒美占证、ULUCKY 占品牌+APP)——真正还没人同时做到的是:&lt;strong&gt;一体超薄贴片形态(非控制器+导线、非腰带)+ 证 backed 镇痛(非温灸擦边)+ 自有临床证据 + 强女性品牌与数据生态&lt;/strong&gt;,四者合一。这是执行型差异化,不是结构型蓝海。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;5.3 竞争策略小结&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;维度&lt;/th&gt;&lt;th&gt;我方策略&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;对标海外&lt;/td&gt;&lt;td&gt;复用 Livia 的机制叙事与商业模式(硬件+耗材订阅),做&quot;中国版 Livia&quot;,但价格更亲民、本土化经期管理更深。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;对标国内同类(易舒美/ULUCKY/TensCare 及理疗仪)&lt;/td&gt;&lt;td&gt;用&quot;经期专用 + 贴片形态 + 女性品牌 + APP&quot;做品类升级,跳出&quot;通用低频仪比参数比价格&quot;的红海。&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;壁垒(再校准)&lt;/td&gt;&lt;td&gt;护城河不再是&quot;首证&quot;(易舒美已持多张二类&quot;低频电子脉冲治疗仪&quot;注册证,企查查核实)或&quot;品牌+APP&quot;(ULUCKY 已卡位),而是&lt;strong&gt;四合一执行&lt;/strong&gt;:一体贴片形态 + 证 backed 镇痛 + 自有临床数据 + 女性品牌与耗材/数据生态。任一单点都可被抄,壁垒在于四者同时做到且持续迭代;&lt;strong&gt;对外不可再宣称&quot;国内首创/首证/空白&quot;&lt;/strong&gt;。&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-7&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;六、合规边界:能说什么、不能说什么&lt;/h2&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;这是全报告最不能含糊的一章。在中国,凡通过电流作用于人体、宣称&quot;缓解疼痛/治疗&quot;的设备,基本按&lt;strong&gt;第二类医疗器械&lt;/strong&gt;管理。是否持证,直接决定可宣称范围。&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;6.1 功效宣称红绿灯表&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;拟宣称内容&lt;/th&gt;&lt;th&gt;信号灯&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;局部按摩、热敷舒缓、放松&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-g&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;绿&lt;/span&gt;&lt;/td&gt;&lt;td&gt;非医疗表述,无证亦可用(按摩器类目)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;缓解经期不适 / 经期腹部疼痛&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;黄&lt;/span&gt;&lt;/td&gt;&lt;td&gt;镇痛宣称,需二类医疗器械注册证支撑&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;非药物物理方式缓解原发性痛经&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;黄&lt;/span&gt;&lt;/td&gt;&lt;td&gt;可作为注册适应症申报方向(对标 Livia)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;辅助放松、帮助改善睡眠质量&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;黄&lt;/span&gt;&lt;/td&gt;&lt;td&gt;可做,但避免&quot;治疗失眠症&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;治愈/根治痛经;替代药物;治疗失眠症&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;红&lt;/span&gt;&lt;/td&gt;&lt;td&gt;禁止,无证据且违反广告法&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;儿童长高/治疗近视/治疗厌食&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;红&lt;/span&gt;&lt;/td&gt;&lt;td&gt;绝对禁止,无证据 + 强监管 + 舆论风险&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h3&gt;6.2 两阶段上市策略(对应是否持证)&lt;/h3&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;阶段一:拿证前(0–N 月)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;类目:&lt;/strong&gt; 按摩器 / 低频舒缓类消费电子。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;可说:&lt;/strong&gt; 舒缓、放松、热敷、按摩、经期陪伴。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;打法:&lt;/strong&gt; 先用合规话术铺品牌与用户,验证形态与复购,积累真实使用数据。&lt;/li&gt;&lt;/ul&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;阶段二:取得二类医疗器械注册证后&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;类目:&lt;/strong&gt; 第二类医疗器械(经皮电刺激/低频治疗类)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;可说:&lt;/strong&gt; 缓解经期疼痛等注册获批的适应症(对标 Livia 把&quot;痛经&quot;写入适应症)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;打法:&lt;/strong&gt; 以&quot;获证镇痛&quot;为核心卖点拉开与暖宫仪的身位,资质即壁垒。&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;待办:&lt;/strong&gt; 需专人/顾问确认现有硬件按现行《医疗器械分类目录》归入的具体管理类别与产品技术要求,并规划注册检验与临床评价路径。本报告给出方向,不构成法规结论。&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;6.3 注册路径的周期与成本(中国,行业经验区间)&lt;/h3&gt;
+&lt;p&gt;第十章 Go / No-Go 第 2 问(&quot;周期与成本可接受?&quot;)所需的量级。&lt;strong&gt;核心变量只有一个:能否免临床试验。&lt;/strong&gt; 经皮电刺激/低频治疗类多有同品种可比,常可走临床评价(免临床试验)路径,这是省时省钱的关键。&lt;/p&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;阶段&lt;/th&gt;&lt;th&gt;内容&lt;/th&gt;&lt;th&gt;周期&lt;/th&gt;&lt;th&gt;现金成本(区间)&lt;/th&gt;&lt;th&gt;关键不确定性&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;1. 产品定型 + 技术要求&lt;/td&gt;&lt;td&gt;编制产品技术要求&lt;/td&gt;&lt;td&gt;2–4 月&lt;/td&gt;&lt;td&gt;内部成本&lt;/td&gt;&lt;td&gt;现有硬件能否定型(见 R6)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;2. 注册检验&lt;/td&gt;&lt;td&gt;电气安全/EMC/性能,有资质机构&lt;/td&gt;&lt;td&gt;3–6 月&lt;/td&gt;&lt;td&gt;¥1–20 万&lt;/td&gt;&lt;td&gt;检验机构排期&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3a. 临床评价·同品种比对&lt;/td&gt;&lt;td&gt;免临床试验,资料比对&lt;/td&gt;&lt;td&gt;2–4 月&lt;/td&gt;&lt;td&gt;¥1–10 万&lt;/td&gt;&lt;td&gt;&lt;strong&gt;能否找到合规同品种(低频/TENS 类通常可行)&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3b. 临床评价·临床试验&lt;/td&gt;&lt;td&gt;自行开展试验(如被要求)&lt;/td&gt;&lt;td&gt;6–12 月&lt;/td&gt;&lt;td&gt;¥50–150 万&lt;/td&gt;&lt;td&gt;一旦要求做试验,成本周期数量级跳升&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4. 质量体系 + 体系考核&lt;/td&gt;&lt;td&gt;建体系并通过(可与上并行)&lt;/td&gt;&lt;td&gt;并行&lt;/td&gt;&lt;td&gt;¥10–40 万&lt;/td&gt;&lt;td&gt;自建/代工影响成本&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;5. 注册申报→技术审评→发证&lt;/td&gt;&lt;td&gt;省级药监,申报全过程约 8 个月(158 工作日)&lt;/td&gt;&lt;td&gt;8–12 月&lt;/td&gt;&lt;td&gt;规费数千至数万&lt;/td&gt;&lt;td&gt;审评轮次&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;strong&gt;合计两种情景:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;情景&lt;/th&gt;&lt;th&gt;前提&lt;/th&gt;&lt;th&gt;总周期&lt;/th&gt;&lt;th&gt;现金成本(区间)&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;span class=&quot;sig sig-g&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;乐观&lt;/span&gt;&lt;/td&gt;&lt;td&gt;走同品种比对、免临床试验&lt;/td&gt;&lt;td&gt;约 12–18 个月&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 ¥20–50 万&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;保守&lt;/span&gt;&lt;/td&gt;&lt;td&gt;被要求自行临床试验&lt;/td&gt;&lt;td&gt;约 18–36 个月&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 ¥80–250 万&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;承接第六章待办:&lt;/strong&gt; 须法规顾问按现行《医疗器械分类目录》确认 ① 产品归类与管理类别;② 是否属&quot;免于临床评价目录&quot;或可走同品种比对。这一项确认是整个立项性价比的开关:免临床则&quot;边卖边备证&quot;成立;若必须临床,阶段一(舒缓类目)运营时长须按 18–36 个月重排现金流。以上为行业经验区间,非法规结论。&lt;br&gt;&lt;strong&gt;数据来源:&lt;/strong&gt; 省级药监注册流程公开资料及医疗器械注册行业整理(免临床二类约 12–18 个月、含临床 18–36 个月;注册检验/评审/审查综合费约数万至 30 万元;临床试验费约 50–150 万元)。具体以最新法规与法规顾问意见为准。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-8&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;七、如何验证效果(对比传统方法)&lt;/h2&gt;
+&lt;p&gt;参考心电监测产品&quot;用数据自证&quot;的思路:用可量化、可对照的方式证明效果,既服务于注册临床评价,也服务于营销。&lt;/p&gt;
+&lt;h3&gt;7.1 对照设计:与什么比&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;对照组&lt;/th&gt;&lt;th&gt;衡量什么&lt;/th&gt;&lt;th&gt;对应的营销语言&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;vs 安慰剂(假刺激 SHAM)&lt;/td&gt;&lt;td&gt;VAS疼痛评分下降是否显著优于sham&lt;/td&gt;&lt;td&gt;&quot;临床对照验证有效&quot;,对标 Livia/Guy 2022 双盲交叉&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;vs 不治疗 / 基线&lt;/td&gt;&lt;td&gt;同一人佩戴前后疼痛差异(交叉设计)&lt;/td&gt;&lt;td&gt;&quot;开机数十秒,疼痛明显减轻&quot;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;vs 止痛药&lt;/td&gt;&lt;td&gt;止痛药用量是否减少(Meta 核心阳性指标)&lt;/td&gt;&lt;td&gt;&quot;这个周期少吃了 X 片止痛药&quot;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h3&gt;7.2 核心衡量指标&lt;/h3&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;VAS / NRS 疼痛视觉模拟评分&lt;/strong&gt;(主指标,国际通用,Cochrane/Meta 统一采用)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;止痛药使用量与使用人数&lt;/strong&gt;(Guy 2022 的关键阳性指标:消耗评分下降)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;起效时间&lt;/strong&gt;(秒级,对标 Livia 30–60 秒卖点)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;因痛限制的日常活动、生活质量量表&lt;/strong&gt;(Cochrane 呼吁补强的次要指标)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;不良反应记录&lt;/strong&gt;(电极处皮肤发红/刺激等,证明安全性)。&lt;/li&gt;&lt;/ol&gt;
+&lt;h3&gt;7.3 分阶段验证路线&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;第一步(内部可行性):&lt;/strong&gt; 小样本(10–30人)单组交叉,自身前后对照,快速验证&quot;我方贴片&quot;在真实痛经场景的即时镇痛与起效时间。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;第二步(对照验证):&lt;/strong&gt; 随机、安慰剂(假刺激)对照,VAS 为主指标——这是注册临床评价与&quot;双盲验证&quot;营销话术的基础(方法学对标 Guy 2022 双盲交叉 RCT)。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;第三步(发表/背书):&lt;/strong&gt; 形成可引用的自有数据/论文,联合医院与专家,把&quot;引用他人研究&quot;升级为&quot;自有产品证据&quot;。&lt;/li&gt;&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-9&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;八、定价与商业化&lt;/h2&gt;
+&lt;h3&gt;8.1 定价逻辑&lt;/h3&gt;
+&lt;p&gt;海外 Livia 定位明显高于普通 TENS 机(被业内称为&quot;专为痛经设计、比普通 TENS 机贵但比药物长期成本低&quot;)。国内消费者价格更敏感,但&quot;经期专用 + 贴片 + 品牌 + APP&quot;支撑的溢价空间真实存在。建议采用&lt;strong&gt;硬件 + 耗材(凝胶贴片)订阅&lt;/strong&gt;的双层收入结构。&lt;/p&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;收入层&lt;/th&gt;&lt;th&gt;形态&lt;/th&gt;&lt;th&gt;定价方向&lt;/th&gt;&lt;th&gt;作用&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;硬件主机&lt;/td&gt;&lt;td&gt;可充电贴片主机&lt;/td&gt;&lt;td&gt;中端定价,高于暖宫仪、低于进口 Livia&lt;/td&gt;&lt;td&gt;获客入口&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材订阅&lt;/td&gt;&lt;td&gt;凝胶电极贴片(消耗品)&lt;/td&gt;&lt;td&gt;月度/周期订阅&lt;/td&gt;&lt;td&gt;持续现金流 + 复购壁垒&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;增值服务&lt;/td&gt;&lt;td&gt;APP 女性健康会员&lt;/td&gt;&lt;td&gt;增值订阅&lt;/td&gt;&lt;td&gt;数据生态 + 客单提升&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;具体价格需结合 BOM 成本、目标毛利、渠道扣点测算;本报告给出结构而非具体数字。耗材订阅(对标 Livia 凝胶贴订阅制)是把一次性硬件生意做成持续收入的关键。&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;8.2 渠道与节奏&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;线上 DTC 为主:&lt;/strong&gt; 天猫/京东/抖音 + 自有小程序,女性健康内容种草。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;众筹冷启动:&lt;/strong&gt; 对标 Livia 在 Indiegogo 起家,可作为低成本验证 + 造势手段。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;拿证后拓展:&lt;/strong&gt; 药房、女性健康连锁、妇科/中医科室渠道。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;8.3 单位经济与三年财务情景(测算框架)&lt;/h3&gt;
+&lt;p&gt;补上让本章&quot;硬件 + 耗材订阅 + 增值&quot;结构可被检验的数字。&lt;strong&gt;国内价格锚:&lt;/strong&gt; 普通暖宫仪/暖宫带 ¥30–170;国产 TENS 类经期镇痛仪(如 ULUCKY 安宫仪)京东约 ¥798(原价 ¥1200);进口 Livia 更高。建议主机定位其间。&lt;/p&gt;
+&lt;h4&gt;(1)单位经济假设(单用户口径)&lt;/h4&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;项目&lt;/th&gt;&lt;th&gt;取值(假设)&lt;/th&gt;&lt;th&gt;毛利率&lt;/th&gt;&lt;th&gt;依据 / 待校准&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;主机售价&lt;/td&gt;&lt;td&gt;¥499&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;高于暖宫仪、低于国产 TENS 经期仪(¥800+)与进口 Livia&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;主机 BOM&lt;/td&gt;&lt;td&gt;¥130&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;柔性电路+电池+主控+外壳,&lt;strong&gt;待硬件团队实测&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;渠道扣点(DTC)&lt;/td&gt;&lt;td&gt;15%&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;天猫/京东/抖音综合&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;主机首单毛利(净渠道后)&lt;/td&gt;&lt;td&gt;约 ¥294&lt;/td&gt;&lt;td&gt;约 59%&lt;/td&gt;&lt;td&gt;实收 ¥424 − BOM ¥130&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材(凝胶贴片)月订阅&lt;/td&gt;&lt;td&gt;¥39/月&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;对标 Livia 凝胶贴订阅&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材月 BOM + 履约&lt;/td&gt;&lt;td&gt;¥18/月&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;&lt;strong&gt;待实测耗用频次&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材月毛利&lt;/td&gt;&lt;td&gt;约 ¥21/月&lt;/td&gt;&lt;td&gt;约 54%&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;获客成本 CAC&lt;/td&gt;&lt;td&gt;¥250(中性)&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;DTC 流量贵,&lt;strong&gt;最敏感变量&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材订阅平均留存&lt;/td&gt;&lt;td&gt;18 个月(中性)&lt;/td&gt;&lt;td&gt;—&lt;/td&gt;&lt;td&gt;&lt;strong&gt;最敏感变量&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h4&gt;(2)LTV / CAC(毛利口径)&lt;/h4&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;情景&lt;/th&gt;&lt;th&gt;CAC&lt;/th&gt;&lt;th&gt;留存&lt;/th&gt;&lt;th&gt;LTV(硬件毛利 + 耗材毛利×月数)&lt;/th&gt;&lt;th&gt;LTV/CAC&lt;/th&gt;&lt;th&gt;结论&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;保守&lt;/td&gt;&lt;td&gt;¥350&lt;/td&gt;&lt;td&gt;12 月&lt;/td&gt;&lt;td&gt;¥294 + ¥21×12 = ¥546&lt;/td&gt;&lt;td&gt;&lt;strong&gt;1.6&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;不健康&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中性&lt;/td&gt;&lt;td&gt;¥250&lt;/td&gt;&lt;td&gt;18 月&lt;/td&gt;&lt;td&gt;¥294 + ¥21×18 = ¥672&lt;/td&gt;&lt;td&gt;&lt;strong&gt;2.7&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;偏紧&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;乐观&lt;/td&gt;&lt;td&gt;¥180&lt;/td&gt;&lt;td&gt;24 月&lt;/td&gt;&lt;td&gt;¥294 + ¥21×24 = ¥798&lt;/td&gt;&lt;td&gt;&lt;strong&gt;4.4&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-g&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;健康&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;核心结论:&lt;/strong&gt; 单位经济生死线在 CAC 与耗材留存,而非硬件定价。中性情景 LTV/CAC 仅 2.7,低于 3 的健康基准。&quot;用药替代追踪&quot;&quot;经期联动&quot;&quot;会员&quot;等功能的真实价值,是延长耗材留存这条命脉。&lt;/p&gt;&lt;/aside&gt;
+&lt;h4&gt;(3)三年营收情景(中性,量级测算)&lt;/h4&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;第 1 年&lt;/th&gt;&lt;th&gt;第 2 年&lt;/th&gt;&lt;th&gt;第 3 年&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;新增付费用户&lt;/td&gt;&lt;td&gt;12 万&lt;/td&gt;&lt;td&gt;23 万&lt;/td&gt;&lt;td&gt;30 万&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;累计获客&lt;/td&gt;&lt;td&gt;12 万&lt;/td&gt;&lt;td&gt;35 万&lt;/td&gt;&lt;td&gt;65 万&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;硬件收入(净渠道后)&lt;/td&gt;&lt;td&gt;约 ¥5100 万&lt;/td&gt;&lt;td&gt;约 ¥0.98 亿&lt;/td&gt;&lt;td&gt;约 ¥1.27 亿&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;耗材 + 会员收入&lt;/td&gt;&lt;td&gt;约 ¥1500 万&lt;/td&gt;&lt;td&gt;约 ¥6300 万&lt;/td&gt;&lt;td&gt;约 ¥1.25 亿&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;总营收&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 ¥0.66 亿&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 ¥1.6 亿&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 ¥2.5 亿&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;综合毛利率&lt;/td&gt;&lt;td&gt;约 56%&lt;/td&gt;&lt;td&gt;约 57%&lt;/td&gt;&lt;td&gt;约 58%&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;累计 65 万用户对应 2.3 的中性情景(占 SAM 3%)。保守/乐观按用户数 ×0.35 / ×2.0 平移,第 3 年总营收约 ¥0.9 亿 / ¥5.0 亿。以上未计市场费用、研发、注册(见 6.3)、组织成本,非利润测算,仅判断营收量级与毛利结构。&lt;br&gt;&lt;strong&gt;数据来源:&lt;/strong&gt; 国内售价区间据 1688/京东/什么值得买在售商品(暖宫带 ¥30–170;ULUCKY 安宫仪京东约 ¥798、原价 ¥1200,2025);BOM、CAC、留存、ARPU 为内部测算假设,须以实测替换。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-10&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;九、专家资源与背书策略&lt;/h2&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;重要原则:&lt;/strong&gt; 专家背书的前提是产品功效真实、表述合规。让专家为有证据支持的&quot;非药物镇痛&quot;站台是合理的;让专家为夸大宣称背书会同时损害专家与企业。痛经场景恰好有真实证据,这条路走得通。&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;9.1 该找哪类专家&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;专家类型&lt;/th&gt;&lt;th&gt;背书价值&lt;/th&gt;&lt;th&gt;用途&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;妇产科 / 妇科医生&lt;/td&gt;&lt;td&gt;痛经领域权威,直接相关&lt;/td&gt;&lt;td&gt;适应症合理性、临床评价 PI、科普背书&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;疼痛科 / 康复理疗专家&lt;/td&gt;&lt;td&gt;电刺激镇痛机制权威&lt;/td&gt;&lt;td&gt;机制解读、参数合理性&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;中医 / 针灸推拿专家&lt;/td&gt;&lt;td&gt;穴位定位与本土认同&lt;/td&gt;&lt;td&gt;电极布点经验、用户亲和力(非疗效核心)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;临床研究 / 注册法规顾问&lt;/td&gt;&lt;td&gt;合规与验证&lt;/td&gt;&lt;td&gt;临床方案设计、注册路径&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h3&gt;9.2 背书形式&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;临床评价/小型 RCT 的合作 PI(最硬的背书,直接产出自有证据)。&lt;/li&gt;&lt;li&gt;科普共创:专家讲解&quot;痛经为什么能用电刺激缓解&quot;&quot;无药物方案适合谁&quot;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;规避红线:&lt;/strong&gt; 专家言论严格限定在&quot;非药物缓解经期不适&quot;范畴,不出现&quot;治愈/根治/替代药物&quot;等表述。&lt;/li&gt;&lt;/ul&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-11&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;十、结论与下一步建议&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;立项结论:&lt;/strong&gt; 建议立项,以原发性痛经为首发主打场景,经期助眠/更年期舒缓为产品线延展,切入女性健康赛道。该方向是&quot;有证据 + 合规可做 + 有商业先例 + 可差异化&quot;的唯一交集;前期讨论的儿童长高/厌食/护眼方向因无证据与高监管风险已明确排除。&lt;/p&gt;
+&lt;h3&gt;10.1 决策建议:Go / No-Go 关键问题&lt;/h3&gt;
+&lt;ol&gt;&lt;li&gt;现有硬件能否实现 2/100Hz 疏密波等镇痛参数与柔性贴片形态?(技术团队核实)&lt;/li&gt;&lt;li&gt;是否有资源走二类医疗器械注册?周期与成本可接受?(法规顾问评估)&lt;/li&gt;&lt;li&gt;是否认可&quot;硬件 + 耗材订阅&quot;的女性健康 DTC 打法?(商业判断)&lt;/li&gt;&lt;/ol&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;三项均为&quot;是&quot; → 全力推进;若注册暂不可行 → 先按&lt;strong&gt;阶段一(舒缓类目)&lt;/strong&gt;启动,边卖边备证。&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;10.2 下一步行动清单&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;事项&lt;/th&gt;&lt;th&gt;负责方&lt;/th&gt;&lt;th&gt;优先级&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;硬件能力核对(波形/强度/贴片/续航 vs 目标态)&lt;/td&gt;&lt;td&gt;硬件团队&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;二类医疗器械分类与注册路径确认&lt;/td&gt;&lt;td&gt;法规顾问&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;小样本可行性验证(10–30人交叉)&lt;/td&gt;&lt;td&gt;临床/研发&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;品牌与 APP 原型设计(女性健康定位)&lt;/td&gt;&lt;td&gt;产品/设计&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;对标 Livia 拆解定价与耗材订阅模型&lt;/td&gt;&lt;td&gt;商业/运营&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;接触妇产科/疼痛科专家,探讨合作 PI&lt;/td&gt;&lt;td&gt;BD/医学&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;chapter&quot; id=&quot;sec-12&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;参考文献&lt;/h2&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;说明:以下文献按主题分组。痛经与睡眠类多为可在 PubMed/ScienceDirect 检索的同行评议研究,已尽量提供 PMID/DOI;监管与竞品类为官方文件或行业报道。&lt;strong&gt;重要提醒:这些研究对象多为 TENS/电针/成人或术后人群,可作为本产品的机理与方向支持,不可直接等同于&quot;我方贴片产品的临床效果&quot;。&lt;/strong&gt;&lt;/p&gt;&lt;/aside&gt;
+&lt;h3&gt;A. 痛经 / TENS 镇痛(核心证据)&lt;/h3&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-cochrane&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;3&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Cochrane 系统综述(2024 更新). &lt;em&gt;Transcutaneous electrical nerve stimulation (TENS) for primary dysmenorrhoea&lt;/em&gt;. Cochrane Database of Systematic Reviews, CD013331. 结论:高频与低频 TENS 对比安慰剂/不治疗均可减缓经期疼痛;TENS 价格低、副作用可能少于药物;高/低频优劣及与其他疗法比较、不良反应证据尚不确定。中文摘要见 cochrane.org(评价编号 CD013331)。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-cochrane&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-arik&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;1&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Arik MI, Kiloatar H, Aslan B, Icelli M. &lt;em&gt;The effect of TENS for pain relief in women with primary dysmenorrhea: A systematic review and meta-analysis&lt;/em&gt;. Explore (NY). 2022 Jan-Feb;18(1):108-113. doi:10.1016/j.explore.2020.08.005. PMID: 32917532. 结论:TENS 显著降低痛经 VAS;机制为闸门控制 + 增强内源性抑制 + 降低中枢兴奋性。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-arik&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-pmid41790650&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;2&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;&lt;em&gt;Transcutaneous electrical nerve stimulation for treatment of primary dysmenorrhea: A systematic review and meta-analysis of randomized controlled trials&lt;/em&gt;(2026). PMID: 41790650. 以森林图分析 TENS 组与对照组 VAS 均差(MD)及止痛持续时间(SMD),并按基线疼痛严重度(VAS&amp;gt;7 vs ≤7)做亚组分析与敏感性分析。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-pmid41790650&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-guy&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;6&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Guy M, Foucher C, Juhel C, Rigaudier F, Mayeux G, Levesque A. &lt;em&gt;Transcutaneous electrical neurostimulation relieves primary dysmenorrhea: A randomized, double-blind clinical study versus placebo&lt;/em&gt; / &lt;em&gt;Efficacy of a device combining high-frequency TENS and thermotherapy...&lt;/em&gt;. Prog Urol. 2022 Jul;32(7):487-497. doi:10.1016/j.purol.2022.01.005. PMID: 35249825. 设计:40 名需用止痛药的痛经女性,TENS vs SHAM 随机交叉双盲;结局:VAS(0–100mm)显著下降,止痛药(对乙酰氨基酚/布洛芬等效)消耗评分下降。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-guy&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-mclagan&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;7&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;McLagan B, Dexheimer J, Strock N, Goldstein S, Guzman S, Erceg D, Schroeder ET. &lt;em&gt;The role of transcutaneous electrical nerve stimulation for menstrual pain relief: A randomized control trial&lt;/em&gt;. Womens Health (Lond). 2024;20:17455057241266455. doi:10.1177/17455057241266455. PMID: 39066557(PMC 免费全文)。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-mclagan&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-lee&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;8&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Lee B, Hong SH, Kim K, Kang WC, No JH, Lee JR, Jee BC, Yang EJ, Cha EJ, Kim YB. &lt;em&gt;Efficacy of the device combining high-frequency transcutaneous electrical nerve stimulation and thermotherapy for relieving primary dysmenorrhea: a randomized, single-blind, placebo-controlled trial&lt;/em&gt;. Eur J Obstet Gynecol Reprod Biol. 2015 Nov;194:58-63. doi:10.1016/j.ejogrb.2015.08.020. PMID: 26340453. &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-lee&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3&gt;B. 睡眠 / TEAS&lt;/h3&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-teas_sleep&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;11&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;&lt;em&gt;Effect of transcutaneous electrical acupoint stimulation on sleep quality: A systematic review and meta-analysis&lt;/em&gt;(2024). ScienceDirect 文章号 S187638202400009X. 纳入 16 项 RCT、1555 名受试者(12 项低/中风险偏倚);PSQI 全局评分为主指标;内关(PC6)、神门(HT7)为常用有效刺激点;以中年/术后人群效果较显著。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-teas_sleep&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-teas_periop&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;12&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;&lt;em&gt;Effects of Perioperative Transcutaneous Electrical Acupoint Stimulation on Sleep Quality after General Anaesthesia: A Systematic Review and Meta-Analysis&lt;/em&gt;(2024). doi:10.1155/2024/6763996. 约 1076 名患者;TEAS 显著改善全麻术后睡眠质量;部分研究采用 2/100Hz 疏密波刺激 HT7/PC6/ST36。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-teas_periop&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3&gt;C. 针灸证据总览 / 机制&lt;/h3&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-acu_overview&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;13&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;针灸适应症证据总览研究(2017 初版,2017–2022 更新). 覆盖 862 篇系统综述/Meta、184 种病症。&quot;有正面效果证据&quot;的 10 种病症:慢性疼痛、下背痛、膝骨关节炎、术后恶心呕吐、偏头痛、紧张型头痛、癌症相关疲劳、更年期症状、辅助生殖中的女性不孕、男性慢性前列腺炎/盆腔痛综合征;另 82 种&quot;潜在正面&quot;、86 种证据不足、6 种无效。可经 ScienceDirect(文章号 S096522992500024X 等)检索同类综述。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-acu_overview&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3&gt;D. 监管 / 竞品 / 行业&lt;/h3&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-fda510k&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;9&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;U.S. FDA 510(k) Summary, K183110(Livia / IPulse Medical). 将痛经(menstrual cramps / dysmenorrhea)纳入该 TENS 设备可治疗的疼痛类型,并附电极放置示意。accessdata.fda.gov。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-fda510k&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-livia&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;14&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Livia 官方网站. mylivia.com. 产品宣称:FDA-cleared、临床验证、专利 SmartWave 微脉冲、基于闸门控制理论阻断疼痛信号、30–60 秒起效、无药物无激素不影响周期。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-livia&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-finvsfin&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;10&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;&lt;em&gt;Ovira vs. Livia: What&#x27;s the Best Device for Period Pain Relief?&lt;/em&gt; finvsfin.com(2026). 对比 Livia(FDA/Health Canada/CE,16档,数十秒起效)与 Ovira(美加获批,40档,起效稍慢);TENS 治痛经为临床验证的无药物方法。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-finvsfin&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-healthywomen&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;5&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;&lt;em&gt;Period Pain Meets Innovation: New Devices Are Interrupting Menstrual Cramps&lt;/em&gt;. healthywomen.org(2026-03). 描述 Livia 基于闸门控制理论、刺激内啡肽释放、30–60 秒起效;并指出 OhmBody 作为 wellness 设备(非 FDA 清关)的 16 人试点。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-healthywomen&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-ipulse&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;4&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;Wikipedia: &lt;em&gt;IPulse Medical&lt;/em&gt;(Livia 母公司). 2016 年 Indiegogo 众筹销售额至 2018-12 超 174 万美元;2018 年获 Edison Awards 女性健康类金奖;Livia 已获 FDA、CE、Health Canada 认证。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-ipulse&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;ref-entry&quot; id=&quot;fn-bydrug&quot;&gt;&lt;span class=&quot;ref-num&quot;&gt;15&lt;/span&gt;&lt;div class=&quot;ref-body&quot;&gt;医药魔方 ByDrug 器械数据库:TENS-300 型家用低频理疗仪(中国大陆). 脉冲频率 1–100Hz 可调,含连续波/断续波/疏密波(疏波5s/密波10s,频率比 1:5),脉宽 0.2ms。作为国内通用低频理疗仪的参数参照。 &lt;a class=&quot;fn-back&quot; href=&quot;#fnref-bydrug&quot; aria-label=&quot;返回正文&quot;&gt;↩&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h3&gt;E. 排除方向的依据(供查证)&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;儿科电刺激证据综述(对象为脑瘫/偏瘫/吞咽障碍/扁平足等神经肌肉康复,无&quot;健康儿童增高&quot;用途),可经 PubMed 检索儿科 NMES/FES 系统综述(如 PMID 27285801 等)。&lt;/li&gt;&lt;li&gt;&quot;增高贴/增高神器&quot;乱象的媒体报道(国内主流媒体 2021 年前后多次曝光,宣称&quot;激活骨骼二次发育&quot;&quot;快速长高 5–20cm&quot;等多为虚假宣传)。&lt;/li&gt;&lt;/ul&gt;
+&lt;p class=&quot;endmark&quot;&gt;— 报告完 —&lt;/p&gt;
+&lt;p class=&quot;fineprint&quot;&gt;&lt;em&gt;本报告为内部立项决策材料。所引研究多以 TENS/电针/成人或术后人群为对象,迁移至本产品形态需以自有验证数据为准;所有功效宣称须以最终取得的医疗器械注册资质及获批适应症为限。法规分类与注册路径以专业法规顾问意见为准。&lt;/em&gt;&lt;/p&gt;
+&lt;/section&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;footer class=&quot;foot&quot;&gt;
+  &lt;p&gt;&lt;strong&gt;免责声明 ·&lt;/strong&gt; 本报告为内部立项决策材料。所引研究多以 TENS / 电针 / 成人或术后人群为对象,可作机理与方向支持,不可直接等同于本产品形态的临床效果;迁移须以自有验证数据为准。所有功效宣称须以最终取得的医疗器械注册资质及获批适应症为限,法规分类与注册路径以专业法规顾问意见为准。&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;script&gt;
+(function(){
+  var toc=document.querySelector(&#x27;details.toc&#x27;);
+  if(toc&amp;&amp;window.matchMedia(&#x27;(max-width:1079px)&#x27;).matches)toc.open=false;
+  var bar=document.querySelector(&#x27;.progress&#x27;);
+  function onScroll(){
+    var h=document.documentElement;
+    var sc=h.scrollTop||document.body.scrollTop;
+    var max=h.scrollHeight-h.clientHeight;
+    if(bar)bar.style.width=(max&gt;0?(sc/max*100):0)+&#x27;%&#x27;;
+  }
+  document.addEventListener(&#x27;scroll&#x27;,onScroll,{passive:true});onScroll();
+
+  var links=[].slice.call(document.querySelectorAll(&#x27;.toc a&#x27;));
+  var map={};links.forEach(function(a){map[a.dataset.target]=a;});
+  var secs=[].slice.call(document.querySelectorAll(&#x27;section.chapter&#x27;));
+
+  if(&#x27;IntersectionObserver&#x27; in window){
+    var spy=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove(&#x27;active&#x27;);});
+          var a=map[e.target.id];if(a)a.classList.add(&#x27;active&#x27;);
+        }
+      });
+    },{rootMargin:&#x27;-15% 0px -70% 0px&#x27;,threshold:0});
+    secs.forEach(function(s){spy.observe(s);});
+
+    var reduce=window.matchMedia(&#x27;(prefers-reduced-motion:reduce)&#x27;).matches;
+    if(!reduce){
+      secs.forEach(function(s){s.classList.add(&#x27;reveal&#x27;);});
+      var rev=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.isIntersecting){e.target.classList.add(&#x27;shown&#x27;);rev.unobserve(e.target);}
+        });
+      },{rootMargin:&#x27;0px 0px -8% 0px&#x27;,threshold:.06});
+      secs.forEach(function(s){rev.observe(s);});
+      // safety: never leave a section hidden (non-scrolling renderers, hidden tabs)
+      setTimeout(function(){secs.forEach(function(s){s.classList.add(&#x27;shown&#x27;);});},1400);
+    }
+  }
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  <iframe id="frame-oab" class="frame" title="OAB / TTNS 候选场景立项简版"
+          srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;title&gt;候选场景立项简版 · OAB / 急迫性尿失禁的经皮胫神经刺激(TTNS)&lt;/title&gt;
+&lt;meta name=&quot;description&quot; content=&quot;膀胱过度活动症 / 急迫性尿失禁的家用经皮胫神经刺激(TTNS)候选场景立项前评估&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+:root{
+  --bg:#ffffff;
+  --surface:#faf7f5;
+  --surface-2:#f5efec;
+  --ink:#231d1b;
+  --ink-soft:#4f4744;
+  --muted:#6a615d;
+  --rule:#e8e1dc;
+  --rule-soft:#f0ebe7;
+  --accent:#a32a45;
+  --accent-deep:#7c1d33;
+  --accent-tint:#fbeef1;
+  --accent-soft:#f6e2e7;
+  --g:#2f8f5b; --y:#c8881b; --r:#bb2d3b;
+  --maxw:44rem;
+  --serif:&quot;Newsreader&quot;,&quot;Songti SC&quot;,&quot;STSong&quot;,&quot;Noto Serif SC&quot;,&quot;Source Han Serif SC&quot;,Georgia,serif;
+  --sans:&quot;PingFang SC&quot;,&quot;Hiragino Sans GB&quot;,&quot;Microsoft YaHei&quot;,-apple-system,system-ui,&quot;Segoe UI&quot;,sans-serif;
+  --z-toc:10; --z-bar:20;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.9;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-feature-settings:&quot;kern&quot; 1;
+}
+::selection{background:var(--accent-soft);color:var(--accent-deep)}
+
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:var(--z-bar);transition:width .1s linear}
+@media (prefers-reduced-motion:reduce){.progress{transition:none}}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+
+.cover{max-width:52rem;margin:0 auto;padding:clamp(3.5rem,8vw,6.5rem) 1.5rem clamp(2rem,4vw,3rem)}
+.kicker{display:inline-flex;align-items:center;gap:.6em;font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.6rem}
+.kicker::before{content:&quot;&quot;;width:1.6rem;height:1px;background:var(--accent)}
+.cover h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.12;letter-spacing:-.01em;
+  margin:0 0 1.2rem;color:var(--ink);text-wrap:balance;max-width:22ch;
+}
+.cover .subtitle{font-size:clamp(1.02rem,2.2vw,1.22rem);color:var(--ink-soft);
+  line-height:1.6;max-width:48ch;margin:0 0 2rem;font-weight:400}
+.cover .subtitle em{font-style:normal;color:var(--accent-deep)}
+.meta-row{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;align-items:center;
+  padding-top:1.4rem;border-top:1px solid var(--rule);font-size:.86rem;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:.45em;padding:.28em .8em;border-radius:999px;
+  background:var(--accent-tint);color:var(--accent-deep);font-weight:600;font-size:.78rem;letter-spacing:.02em}
+.badge .dot{width:.5em;height:.5em;border-radius:50%;background:var(--accent)}
+.kw{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;padding:0;margin:1.6rem 0 0}
+.kw li{font-size:.78rem;color:var(--ink-soft);padding:.3em .8em;border:1px solid var(--rule);
+  border-radius:6px;background:var(--surface)}
+
+.layout{max-width:74rem;margin:0 auto;padding:0 1.5rem 5rem;
+  display:grid;grid-template-columns:1fr;gap:2.5rem}
+@media (min-width:1080px){
+  .layout{grid-template-columns:15rem minmax(0,1fr);gap:4rem;align-items:start}
+}
+
+.toc{font-size:.85rem}
+.toc&gt;summary.toc-title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0 0 1rem;padding-bottom:.7rem;border-bottom:1px solid var(--rule);
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.toc&gt;summary.toc-title::-webkit-details-marker{display:none}
+.toc&gt;summary.toc-title::after{content:&quot;&quot;;width:.46rem;height:.46rem;flex:0 0 auto;margin-bottom:.18em;
+  border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .2s ease}
+.toc[open]&gt;summary.toc-title::after{transform:rotate(-135deg)}
+.toc:not([open])&gt;summary.toc-title{margin-bottom:0}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+.toc li{margin:0}
+.toc a{display:block;color:var(--ink-soft);padding:.42em 0 .42em .9rem;
+  border-left:1px solid var(--rule-soft);line-height:1.4;transition:color .18s,border-color .18s}
+.toc a:hover{color:var(--ink);text-decoration:none;border-left-color:var(--accent-soft)}
+.toc a.active{color:var(--accent-deep);font-weight:600;border-left-color:var(--accent)}
+@media (min-width:1080px){
+  .toc{position:sticky;top:2.2rem;max-height:calc(100vh - 4rem);overflow-y:auto;
+    padding-right:.4rem;-webkit-overflow-scrolling:touch}
+  .toc::-webkit-scrollbar{width:5px}
+  .toc::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+  .toc&gt;summary.toc-title{pointer-events:none}
+  .toc&gt;summary.toc-title::after{display:none}
+}
+@media (max-width:1079px){
+  .toc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.05rem 1.15rem}
+  .toc a{padding-top:.62em;padding-bottom:.62em}
+}
+
+.prose{max-width:var(--maxw);min-width:0}
+.chapter{padding-top:1rem;margin-bottom:2.4rem}
+.chapter+.chapter{border-top:1px solid var(--rule-soft);margin-top:1rem;padding-top:2.8rem}
+.ch-head{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.1rem);
+  line-height:1.22;letter-spacing:-.005em;color:var(--ink);margin:0 0 1.4rem;
+  scroll-margin-top:1.5rem;text-wrap:balance;display:flex;align-items:baseline;gap:.7rem}
+.ch-rule{flex:0 0 auto;width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);
+  transform:translateY(-.18em)}
+h3{font-family:var(--serif);font-weight:600;font-size:1.28rem;line-height:1.35;
+  color:var(--ink);margin:2.4rem 0 .9rem;letter-spacing:-.003em;scroll-margin-top:1.5rem}
+h4{font-weight:700;font-size:1.02rem;color:var(--accent-deep);margin:1.8rem 0 .7rem;letter-spacing:.01em}
+.prose p{margin:0 0 1.1rem;color:var(--ink-soft);text-wrap:pretty}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{color:var(--ink);font-style:italic}
+.prose&gt;section p{hyphens:none}
+
+.prose ul,.prose ol{margin:0 0 1.3rem;padding-left:0;color:var(--ink-soft)}
+.prose ul{list-style:none}
+.prose ul li{position:relative;padding-left:1.5rem;margin:.5em 0}
+.prose ul li::before{content:&quot;&quot;;position:absolute;left:.2rem;top:.72em;width:.42rem;height:.42rem;
+  border-radius:50%;border:1.5px solid var(--accent);background:transparent}
+.prose ol{list-style:none;counter-reset:li}
+.prose ol li{position:relative;padding-left:2.1rem;margin:.7em 0;counter-increment:li}
+.prose ol li::before{content:counter(li);position:absolute;left:0;top:.05em;
+  width:1.5rem;height:1.5rem;display:grid;place-items:center;font-family:var(--serif);
+  font-size:.82rem;font-weight:600;color:var(--accent-deep);background:var(--accent-tint);border-radius:50%}
+.prose li strong:first-child{color:var(--ink)}
+
+.note{position:relative;background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1.1rem 1.3rem 1.1rem 2.5rem;margin:1.5rem 0;font-size:.96rem}
+.note .note-mark{position:absolute;left:1rem;top:1.25rem;width:1rem;height:1rem;border-radius:50%;
+  background:var(--accent-tint)}
+.note .note-mark::after{content:&quot;i&quot;;position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-style:italic;font-size:.7rem;font-weight:600;color:var(--accent-deep)}
+.note p{margin:0;color:var(--ink-soft)}
+.note strong{color:var(--accent-deep)}
+
+.table-wrap{margin:1.6rem 0;overflow-x:auto;border-radius:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.92rem;line-height:1.55;min-width:30rem}
+thead th{text-align:left;font-weight:700;color:var(--ink);padding:.85em 1em;
+  background:var(--surface);border-bottom:2px solid var(--accent);white-space:nowrap;vertical-align:bottom}
+tbody td{padding:.8em 1em;border-bottom:1px solid var(--rule);color:var(--ink-soft);vertical-align:top}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+tbody tr:hover td{background:var(--surface)}
+table strong{color:var(--ink)}
+td:first-child{color:var(--ink)}
+
+.sig{display:inline-flex;align-items:center;gap:.5em;font-weight:600;white-space:nowrap}
+.sig .dot{width:.7em;height:.7em;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+.sig-g{color:var(--g)} .sig-g .dot{background:var(--g)}
+.sig-y{color:var(--y)} .sig-y .dot{background:var(--y)}
+.sig-r{color:var(--r)} .sig-r .dot{background:var(--r)}
+
+.fineprint{font-size:.82rem;color:var(--muted);font-style:italic;line-height:1.7}
+.endmark{text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted);
+  margin:2.5rem 0 1rem;letter-spacing:.05em}
+
+.foot{max-width:74rem;margin:0 auto;padding:2.5rem 1.5rem 4rem;border-top:1px solid var(--rule);
+  color:var(--muted);font-size:.8rem;line-height:1.7}
+.foot strong{color:var(--ink-soft)}
+
+.chapter{opacity:1}
+.reveal{opacity:0;transform:translateY(14px)}
+.reveal.shown{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.reveal.shown{opacity:1;transform:none;transition:none}
+}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .cover{padding-top:3rem}
+  .note{padding-left:2.3rem}
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;progress&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+
+&lt;header class=&quot;cover&quot;&gt;
+  &lt;div class=&quot;kicker&quot;&gt;机密 · 候选场景立项前评估&lt;/div&gt;
+  &lt;h1&gt;急迫性尿失禁 / 膀胱过度活动症(OAB)的经皮胫神经刺激(TTNS)&lt;/h1&gt;
+  &lt;p class=&quot;subtitle&quot;&gt;在痛经主报告之外评估的&quot;更蓝海 + 有证据&quot;候选方向 · &lt;em&gt;已企查查核实并据实修正&lt;/em&gt;&lt;/p&gt;
+  &lt;ul class=&quot;kw&quot;&gt;&lt;li&gt;经皮胫神经刺激(TTNS)&lt;/li&gt;&lt;li&gt;膀胱过度活动症&lt;/li&gt;&lt;li&gt;急迫性尿失禁&lt;/li&gt;&lt;li&gt;家用神经调控&lt;/li&gt;&lt;li&gt;第二类医疗器械&lt;/li&gt;&lt;li&gt;女性盆底健康&lt;/li&gt;&lt;/ul&gt;
+  &lt;div class=&quot;meta-row&quot;&gt;
+    &lt;span class=&quot;badge&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;候选场景立项简版(机密)&lt;/span&gt;
+    &lt;span&gt;结论已据核证修正:首证窗口已关闭&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;layout&quot;&gt;
+  &lt;details class=&quot;toc&quot; open&gt;
+    &lt;summary class=&quot;toc-title&quot;&gt;目录&lt;/summary&gt;
+    &lt;ol&gt;&lt;li&gt;&lt;a href=&quot;#sec-0&quot; data-target=&quot;sec-0&quot;&gt;〇、一句话结论&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-1&quot; data-target=&quot;sec-1&quot;&gt;一、需求与市场&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-2&quot; data-target=&quot;sec-2&quot;&gt;二、证据链&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-3&quot; data-target=&quot;sec-3&quot;&gt;三、海外标杆对标&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-4&quot; data-target=&quot;sec-4&quot;&gt;四、国内竞争与注册证(已核实)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-5&quot; data-target=&quot;sec-5&quot;&gt;五、产品形态与差异化&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-6&quot; data-target=&quot;sec-6&quot;&gt;六、合规边界&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-7&quot; data-target=&quot;sec-7&quot;&gt;七、如何验证效果&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-8&quot; data-target=&quot;sec-8&quot;&gt;八、风险矩阵&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#sec-9&quot; data-target=&quot;sec-9&quot;&gt;九、结论与下一步&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;
+  &lt;/details&gt;
+  &lt;main class=&quot;prose&quot;&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-0&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;〇、一句话结论&lt;/h2&gt;
+&lt;p&gt;建议作为&lt;strong&gt;优先候选方向评估&lt;/strong&gt;:OAB / 急迫性尿失禁的&lt;strong&gt;家用经皮胫神经刺激(TTNS)&lt;/strong&gt;,证据等级最高(指南级 + Vivally FDA 可穿戴先例)。但经企查查核实,&lt;strong&gt;国内&quot;首证窗口&quot;已关闭&lt;/strong&gt;:杭州承诺医疗已持&quot;穿戴式经皮胫神经刺激器&quot;二类创新证(OAB),且坐拥骶神经(SNM)/脑深部(DBS)全栈神经调控;麦澜德、伟思为院端盆底巨头。本方向因此与痛经同病——有证据,但已有强势持证先行者,差异化只能退到执行层。&lt;/p&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;三个判断前提(承接主报告立场):① 卖点押&lt;strong&gt;神经调控机制&lt;/strong&gt;(胫神经经骶反射抑制膀胱过度活动),穴位(三阴交 SP6 / 胫神经走行)仅作电极布点工程依据;② 证据可引用作&quot;机理与方向支持&quot;,&lt;strong&gt;不可&lt;/strong&gt;等同于&quot;我方产品 = 这些临床效果&quot;;③ 治疗类宣称 = 二类医疗器械,合规是地基。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-1&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;一、需求与市场:为什么是 OAB / 急迫性尿失禁&lt;/h2&gt;
+&lt;h3&gt;1.1 真实、高发、被严重忽视、低满意度&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;高发且随龄上升:&lt;/strong&gt; 国内流行病学报道成人 OAB 约 &lt;strong&gt;6%&lt;/strong&gt;、&lt;strong&gt;40 岁以上约 11%&lt;/strong&gt;,女性与中老年更高(原始文献待核)。成年女性尿失禁患病率多报道在 &lt;strong&gt;30% 量级&lt;/strong&gt;,其中急迫性/混合性占相当比例。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;极度未被满足:&lt;/strong&gt; &quot;尿急、尿频、夜尿、憋不住&quot;难以启齿、就诊率低;一线抗胆碱能/β3 药(索利那新、米拉贝隆等)有口干、便秘、认知等副作用,&lt;strong&gt;停药即反复、依从性差&lt;/strong&gt;。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;怕药 + 怕手术:&lt;/strong&gt; 骶神经调控(SNM)需植入手术——&lt;strong&gt;&quot;家用、非药物、非侵入&quot;在这里是硬需求&lt;/strong&gt;,不是卖点修饰。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;女性全周期协同:&lt;/strong&gt; 产后、围绝经、老年都是高发段,与痛经→孕产→盆底的女性健康品牌资产同源。&lt;/li&gt;&lt;/ul&gt;
+&lt;h3&gt;1.2 市场规模测算(中国口径 · 测算假设,待校准)&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;层级&lt;/th&gt;&lt;th&gt;取值(假设)&lt;/th&gt;&lt;th&gt;人数(测算)&lt;/th&gt;&lt;th&gt;依据 / 待校准&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;成年女性(18+)&lt;/td&gt;&lt;td&gt;约 5.3 亿&lt;/td&gt;&lt;td&gt;5.3 亿&lt;/td&gt;&lt;td&gt;全国女性 6.88 亿扣减未成年估算,待按分龄数据校准&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 女性 OAB 患病率&lt;/td&gt;&lt;td&gt;10%&lt;/td&gt;&lt;td&gt;约 5300 万&lt;/td&gt;&lt;td&gt;总体约 6%、女性与中老年更高,取 10%&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 中重度 / 含急迫性尿失禁、明显困扰&lt;/td&gt;&lt;td&gt;35%&lt;/td&gt;&lt;td&gt;约 1855 万&lt;/td&gt;&lt;td&gt;货币化核心人群&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;× 城镇 + 线上 + 愿付费 + 愿正视(去羞耻折扣)&lt;/td&gt;&lt;td&gt;25%&lt;/td&gt;&lt;td&gt;&lt;strong&gt;约 460 万(SAM)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;启齿门槛拉低渗透,最弱假设,待一手调研&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;SOM:&lt;/strong&gt; 按占 SAM 渗透 1% / 3% / 6% → 约 &lt;strong&gt;4.6 万 / 14 万 / 28 万&lt;/strong&gt;付费用户(渗透低于痛经,因认知与启齿门槛更高)。客单建议&quot;主机 + 凝胶电极耗材订阅 + APP 排尿管理会员&quot;三层。&lt;br&gt;&lt;strong&gt;数据来源:&lt;/strong&gt; OAB/尿失禁流行病学(OAB 诊治指南及国内流调,数值待核原文);国家统计局《2025 年全国 1% 人口抽样调查》女性 6.88 亿。以上为公开二手数据,仅框定量级。&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-2&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;二、证据链:TTNS 治 OAB 的科学背书&lt;/h2&gt;
+&lt;h3&gt;2.1 机制(可解释、可对外讲)&lt;/h3&gt;
+&lt;p&gt;胫神经含 &lt;strong&gt;L4–S3&lt;/strong&gt; 纤维,与支配膀胱的骶神经(S2–S4)同源;刺激踝部胫神经,经&lt;strong&gt;骶反射通路&lt;/strong&gt;调节脊髓排尿中枢,&lt;strong&gt;抑制逼尿肌过度活动、提高膀胱容量、延长排尿间隔、抑制尿急&lt;/strong&gt;。这与三阴交(SP6)/胫神经走行重合——穴位在此仅作&quot;找神经的工程坐标&quot;,科学信誉押在神经调控上。&lt;/p&gt;
+&lt;h3&gt;2.2 直接证据(逐条)&lt;/h3&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;研究 / 证据&lt;/th&gt;&lt;th&gt;设计&lt;/th&gt;&lt;th&gt;关键结果&lt;/th&gt;&lt;th&gt;出处&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Vivally(FREE-OAB)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;前瞻多中心,96 例 OAB&lt;/td&gt;&lt;td&gt;6 个月:尿急应答 &lt;strong&gt;69%&lt;/strong&gt;、急迫性尿失禁应答 &lt;strong&gt;63%&lt;/strong&gt;;98% 易用;无器械相关重大不良&lt;/td&gt;&lt;td&gt;支撑其 2023 FDA 510(k) 清关&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Urgent PC(Laborie,PTNS)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;经皮胫神经刺激,长期临床&lt;/td&gt;&lt;td&gt;约 &lt;strong&gt;50 项研究&lt;/strong&gt;、12 年、&lt;strong&gt;逾百万次治疗&lt;/strong&gt;、FDA 获批,OAB 三线疗法&lt;/td&gt;&lt;td&gt;厂商/监管公开资料&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;国内 TTNS RCT&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;120 例老年女性急迫性尿失禁,TTNS+盆底/膀胱训练 vs 训练,6 周&lt;/td&gt;&lt;td&gt;排尿日记、ICIQ-SF、I-QOL 显著改善;主观满意度 &lt;strong&gt;98.3% vs 80%&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;《江苏医药》2024;(03)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;承诺医疗注册临床&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;6 中心、86 例、真假刺激随机单盲&lt;/td&gt;&lt;td&gt;主指标 72h 排尿日记每日排尿次数显著改善,支撑其创新二类证&lt;/td&gt;&lt;td&gt;浙械注准20232091376(企查查核实)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;h3&gt;2.3 诚实解读&lt;/h3&gt;
+&lt;ul&gt;&lt;li&gt;这是几个候选里&lt;strong&gt;证据等级最高、且海外可穿戴(Vivally)已 FDA 跑通、国内已有注册 RCT&lt;/strong&gt; 的一个;终点(排尿日记、ICIQ-SF、应答率)国际统一、可自证。&lt;/li&gt;&lt;li&gt;但现有强证据多为&lt;strong&gt;院端 PTNS 或踝戴 TTNS 在中老年人群&lt;/strong&gt;;迁移到我方家用形态仍需自有验证。&lt;strong&gt;对外&lt;/strong&gt;定位&quot;临床研究支持的非药物盆底/膀胱管理方式&quot;,不夸大为&quot;治愈&quot;。&lt;/li&gt;&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-3&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;三、海外标杆对标&lt;/h2&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;产品&lt;/th&gt;&lt;th&gt;技术/形态&lt;/th&gt;&lt;th&gt;监管&lt;/th&gt;&lt;th&gt;关键打法&lt;/th&gt;&lt;th&gt;可学之处&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Vivally(Avation Medical)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;踝戴式 TTNS + APP + 闭环 EMG 个性化&lt;/td&gt;&lt;td&gt;FDA 510(k)(2023)&lt;/td&gt;&lt;td&gt;处方级家用、闭环客观确认胫神经激活&lt;/td&gt;&lt;td&gt;&quot;可穿戴 + APP + 闭环&quot;把院端 PTNS 搬回家&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Urgent PC(Laborie)&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;院端 PTNS(针电极)&lt;/td&gt;&lt;td&gt;FDA&lt;/td&gt;&lt;td&gt;50 项研究背书、医院渠道&lt;/td&gt;&lt;td&gt;证据厚度与适应症叙事&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;海外已验证&quot;家用 TTNS 可穿戴 + 数字化&quot;的可行性与监管路径,给我方提供清晰对标与注册参照。&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-4&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;四、国内竞争与注册证缺口(已企查查核实)&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;核证结论:本方向的&quot;首证窗口&quot;已关闭,且先行者实力很强。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;杭州承诺医疗科技有限公司 = 直接对标、已持证(关键):&lt;/strong&gt; 持有&lt;strong&gt;&quot;穿戴式经皮胫神经刺激器&quot;二类创新医疗器械注册证(浙械注准20232091376,2023-06,有效至 2028)&lt;/strong&gt;,适应症即 OAB / 尿频尿急辅助治疗,且有 6 中心、86 例、真假刺激随机单盲 RCT;已上京东/苏宁。更关键的是它是&lt;strong&gt;全栈膀胱/神经调控厂商&lt;/strong&gt;——同时持国产&lt;strong&gt;植入式骶神经刺激器(SNM,国械注准20233120807/808/809,三类)&lt;/strong&gt;、&lt;strong&gt;脑深部刺激器(DBS,三类)&lt;/strong&gt;、一次性膀胱刺激电极、盆底康复治疗仪。→ &lt;strong&gt;&quot;国内首证/首创&quot;已被一个比易舒美更硬核的对手拿走。&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;麦澜德(688273,41 张注册证)、伟思(688580,69 张注册证)= 院端盆底巨头:&lt;/strong&gt; 主力为生物刺激反馈仪、阴道/直肠电极、盆底肌电、磁刺激等院端产品(主攻产后盆底/压力性尿失禁),暂未见家用 TTNS;但二者均为科创板上市、注册与渠道能力极强,&lt;strong&gt;是随时可下场做家用 OAB 的潜在入场者。&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;消费端:&lt;/strong&gt; 京东已有&quot;穿戴式经皮胫神经刺激器 TTNS&quot;在售。&lt;/li&gt;&lt;/ul&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;由此得到一条规律:&lt;/strong&gt; OAB/TTNS 与痛经、止吐(舒乐定/法罗适)是同一模式——&lt;strong&gt;有 RCT 证据的电刺激场景,国内基本都已被有实力的厂家拿证占位&lt;/strong&gt;。这揭示:&lt;strong&gt;&quot;蓝海&quot;与&quot;有证据&quot;在这个品类里高度互斥&lt;/strong&gt;,纯蓝海往往恰恰是因为没人验证过。&lt;br&gt;&lt;strong&gt;数据来源:&lt;/strong&gt; 企查查企业资质/医疗器械注册证(承诺医疗 USCC 91330110084555096M、麦澜德 9132011505799566XM、伟思 913201007217994654);浙江省创新医疗器械公示与临床试验设计公开资料。(注:某零售页将生产商标注为&quot;诺尔康&quot;系误标,诺尔康注册证均为人工耳蜗,真正持证人为承诺医疗。)&lt;/p&gt;&lt;/aside&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-5&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;五、产品形态与差异化&lt;/h2&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;维度&lt;/th&gt;&lt;th&gt;院端盆底仪 / 通用理疗仪&lt;/th&gt;&lt;th&gt;我方:家用 TTNS 可穿戴&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;形态&lt;/td&gt;&lt;td&gt;阴道探头 / 盒式主机 + 导线,需到院&lt;/td&gt;&lt;td&gt;踝/腿柔性贴合腕带式,居家自用&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;场景&lt;/td&gt;&lt;td&gt;临床、产后康复疗程&lt;/td&gt;&lt;td&gt;居家长期管理,边追剧边用&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;交互&lt;/td&gt;&lt;td&gt;机身/医护操作&lt;/td&gt;&lt;td&gt;APP 个性化方案 + 排尿日记联动&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;适应症定位&lt;/td&gt;&lt;td&gt;多为压力性尿失禁/产后盆底&lt;/td&gt;&lt;td&gt;&lt;strong&gt;OAB / 急迫性尿失禁(尿急、夜尿、憋不住)&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;数据&lt;/td&gt;&lt;td&gt;无沉淀&lt;/td&gt;&lt;td&gt;排尿日记 + 症状改善曲线,建复购与壁垒&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;差异化锚点:&lt;strong&gt;家用一体可穿戴形态 + OAB/急迫型适应症 + APP 排尿管理 + 女性盆底品牌&lt;/strong&gt;,对标 Vivally 而非院端探头仪。但须正视:承诺医疗已占同一身位,差异化必须在轻薄/女性化形态、品牌、数据生态、价格渠道上做出可感差距。&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-6&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;六、合规边界(红绿灯)&lt;/h2&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;拟宣称内容&lt;/th&gt;&lt;th&gt;信号灯&lt;/th&gt;&lt;th&gt;说明&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;腿部放松、促进局部循环、舒缓&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-g&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;绿&lt;/span&gt;&lt;/td&gt;&lt;td&gt;非医疗表述,无证可用(按摩器类目)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;帮助改善尿频尿急、辅助膀胱/盆底管理&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;黄&lt;/span&gt;&lt;/td&gt;&lt;td&gt;功能宣称,需二类医疗器械注册证支撑&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;缓解膀胱过度活动症引起的尿急、急迫性尿失禁&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-y&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;黄&lt;/span&gt;&lt;/td&gt;&lt;td&gt;注册适应症申报方向(对标 Vivally / 承诺医疗)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;治愈尿失禁 / 根治 OAB / 替代手术或药物&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;红&lt;/span&gt;&lt;/td&gt;&lt;td&gt;禁止,无依据且违反广告法&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;用于神经源性膀胱等重症而无医疗监督&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;sig sig-r&quot;&gt;&lt;span class=&quot;dot&quot;&gt;&lt;/span&gt;红&lt;/span&gt;&lt;/td&gt;&lt;td&gt;须明确禁忌与就医提示&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;两阶段策略:&lt;/strong&gt; 阶段一(拿证前)以&quot;腿部舒缓/放松&quot;消费电子铺品牌、积累真实排尿改善数据;阶段二(取得二类证后)以&quot;获证缓解尿急/急迫性尿失禁&quot;为核心卖点,对标 Vivally / 承诺医疗写入适应症。&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-7&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;七、如何验证效果(对照设计)&lt;/h2&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;对照组&lt;/th&gt;&lt;th&gt;衡量什么&lt;/th&gt;&lt;th&gt;营销语言&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;vs 假刺激(sham TTNS)&lt;/td&gt;&lt;td&gt;24h 尿急/急迫性尿失禁次数下降是否显著优于 sham&lt;/td&gt;&lt;td&gt;&quot;临床对照验证&quot;,对标 Vivally FREE-OAB&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;vs 单纯盆底/膀胱训练&lt;/td&gt;&lt;td&gt;在训练基础上叠加 TTNS 的增量&lt;/td&gt;&lt;td&gt;对标国内 TTNS RCT(满意度 98% vs 80%)&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;核心指标:&lt;/strong&gt; 排尿日记(24h 尿急次数、急迫性尿失禁次数、排尿次数、夜尿)、ICIQ-SF、OAB-q / I-QOL 生活质量、应答率(症状改善 ≥50%)、不良反应。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;分阶段:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;小样本可行性&lt;/strong&gt;(20–40 人,自身前后),快速验证家用形态的即时与短期效果。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;随机 sham 对照&lt;/strong&gt;(主指标尿急/UUI 次数),对标承诺医疗 86 例注册临床的设计强度。&lt;/li&gt;&lt;li&gt;&lt;strong&gt;联合泌尿/盆底专家发表&lt;/strong&gt;,把&quot;引用他人&quot;升级为&quot;自有证据&quot;。&lt;/li&gt;&lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-8&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;八、风险矩阵(简)&lt;/h2&gt;
+&lt;div class=&quot;table-wrap&quot;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;风险&lt;/th&gt;&lt;th&gt;概率&lt;/th&gt;&lt;th&gt;影响&lt;/th&gt;&lt;th&gt;缓解&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Q1 ⛔&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;注册可能要求临床试验(OAB 终点明确、易被要求做)&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;早期法规确认路径;阶段一舒缓类目先上&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Q2 ⛔&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&quot;首证&quot;窗口&lt;strong&gt;已确认关闭&lt;/strong&gt;(承诺医疗持创新二类证 + 骶神经/DBS 全栈)&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;放弃&quot;首证&quot;叙事;若做,只能打形态/品牌/数据/价格执行差异&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Q3&lt;/td&gt;&lt;td&gt;启齿/认知门槛高,获客贵&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;私域/医患共建内容,去羞耻教育,控 CAC&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Q4&lt;/td&gt;&lt;td&gt;院端厂家(麦澜德/伟思)下场做家用&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;抢家用 OAB 适应症 + 品牌 + 数据生态&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Q5&lt;/td&gt;&lt;td&gt;效果个体差异、留存与复购&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;高&lt;/td&gt;&lt;td&gt;排尿日记可视化反馈 + 耗材订阅绑定&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Q6&lt;/td&gt;&lt;td&gt;中老年线上触达难、IP(Vivally 闭环 EMG / 承诺医疗专利)&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;中&lt;/td&gt;&lt;td&gt;多渠道 + FTO 检索规避闭环专利&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;chapter&quot; id=&quot;sec-9&quot;&gt;
+&lt;h2 class=&quot;ch-head&quot;&gt;&lt;span class=&quot;ch-rule&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;九、结论与下一步&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;结论(已据核证修正):&lt;/strong&gt; OAB / 急迫性尿失禁的家用 TTNS 证据最硬、海外有 Vivally FDA 先例、与女性盆底品牌协同——&lt;strong&gt;但&quot;国内消费端仍蓝海/首证可争取&quot;的前提已被推翻&lt;/strong&gt;:承诺医疗已持创新二类证并坐拥骶神经/DBS 全栈,麦澜德/伟思虎视家用。本方向因此&lt;strong&gt;与痛经同病&lt;/strong&gt;:不是蓝海,要做就只能靠&quot;家用一体形态 + 女性品牌 + APP 数据 + 价格/渠道&quot;的执行差异正面竞争,且对手实力更强。是否值得做,取决于能否在执行层明显跑赢。&lt;/p&gt;
+&lt;h3&gt;Go / No-Go 关键问题&lt;/h3&gt;
+&lt;ol&gt;&lt;li&gt;现有硬件能否做成踝/腿家用 TTNS 形态与所需波形?(硬件核实)&lt;/li&gt;&lt;li&gt;既然&quot;首证&quot;已被承诺医疗拿走,我方能否在形态(更轻/更美/女性化)、品牌、APP 数据、价格渠道上明显跑赢?(商业判断 → 决定本方向是否还值得做)&lt;/li&gt;&lt;li&gt;是否接受偏中老年女性 + 需做品类去羞耻教育的获客模型?(商业判断)&lt;/li&gt;&lt;/ol&gt;
+&lt;aside class=&quot;note&quot;&gt;&lt;div class=&quot;note-mark&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;下一步:&lt;/strong&gt; ①(已完成)企查查核证:承诺医疗持创新二类证、麦澜德/伟思院端盆底巨头,首证窗口关闭;② 硬件能力核对;③ 小样本可行性验证(20–40 人,排尿日记主指标);④ 接触泌尿/盆底专家探讨合作 PI。&lt;/p&gt;&lt;/aside&gt;
+&lt;p class=&quot;endmark&quot;&gt;— 候选场景简版 完 —&lt;/p&gt;
+&lt;p class=&quot;fineprint&quot;&gt;本简版为内部立项前评估材料。所引研究(Vivally / Urgent PC / 国内 TTNS RCT / 承诺医疗注册临床等)多以院端或中老年人群为对象,可作机理与方向支持,不可直接等同于我方家用产品的临床效果;所有功效宣称以最终取得的医疗器械注册资质与获批适应症为限;流行病学与市场数字为公开二手或测算假设,须以原始文献与一手调研替换。&lt;/p&gt;
+&lt;/section&gt;
+
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;footer class=&quot;foot&quot;&gt;
+  &lt;p&gt;&lt;strong&gt;免责声明 ·&lt;/strong&gt; 本简版为内部立项前评估材料。竞争与注册证信息基于企查查公开资质数据(检索时点动态),功效与流行病学引用为机理与方向支持,不可直接等同于本产品形态的临床效果。所有功效宣称须以最终取得的医疗器械注册资质及获批适应症为限,法规分类与注册路径以专业法规顾问意见为准。&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;script&gt;
+(function(){
+  var toc=document.querySelector(&#x27;details.toc&#x27;);
+  if(toc&amp;&amp;window.matchMedia(&#x27;(max-width:1079px)&#x27;).matches)toc.open=false;
+  var bar=document.querySelector(&#x27;.progress&#x27;);
+  function onScroll(){
+    var h=document.documentElement;
+    var sc=h.scrollTop||document.body.scrollTop;
+    var max=h.scrollHeight-h.clientHeight;
+    if(bar)bar.style.width=(max&gt;0?(sc/max*100):0)+&#x27;%&#x27;;
+  }
+  document.addEventListener(&#x27;scroll&#x27;,onScroll,{passive:true});onScroll();
+
+  var links=[].slice.call(document.querySelectorAll(&#x27;.toc a&#x27;));
+  var map={};links.forEach(function(a){map[a.dataset.target]=a;});
+  var secs=[].slice.call(document.querySelectorAll(&#x27;section.chapter&#x27;));
+
+  if(&#x27;IntersectionObserver&#x27; in window){
+    var spy=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove(&#x27;active&#x27;);});
+          var a=map[e.target.id];if(a)a.classList.add(&#x27;active&#x27;);
+        }
+      });
+    },{rootMargin:&#x27;-15% 0px -70% 0px&#x27;,threshold:0});
+    secs.forEach(function(s){spy.observe(s);});
+
+    var reduce=window.matchMedia(&#x27;(prefers-reduced-motion:reduce)&#x27;).matches;
+    if(!reduce){
+      secs.forEach(function(s){s.classList.add(&#x27;reveal&#x27;);});
+      var rev=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.isIntersecting){e.target.classList.add(&#x27;shown&#x27;);rev.unobserve(e.target);}
+        });
+      },{rootMargin:&#x27;0px 0px -8% 0px&#x27;,threshold:.06});
+      secs.forEach(function(s){rev.observe(s);});
+      setTimeout(function(){secs.forEach(function(s){s.classList.add(&#x27;shown&#x27;);});},1400);
+    }
+  }
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+  <div class="fallback">独立打开:
+      <a href="女性健康电刺激产品_立项调研报告.html">主报告 · 原发性痛经</a> · 
+      <a href="候选场景立项简版_急迫尿失禁OAB_经皮胫神经刺激TTNS.html">候选场景 · OAB / TTNS</a></div>
 </div>
 
 <script>
@@ -108,9 +912,6 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
     t.addEventListener('click',function(){activate(t.dataset.target);});
   });
   if(location.hash==='#oab')activate('frame-oab');
-  frames.forEach(function(f){
-    f.addEventListener('error',function(){document.getElementById('fallback').hidden=false;});
-  });
 })();
 </script>
 </body>
