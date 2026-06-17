@@ -46,9 +46,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
   background:var(--accent);border-radius:2px}
 
 /* ---------- frames ---------- */
+/* Inactive frames stay laid out (visibility, not display:none) so each report's
+   inner responsive JS reads the real viewport width — a display:none iframe
+   reports ~0px and would wrongly collapse the OAB report's <details> TOC. */
 .frames{flex:1 1 auto;position:relative;background:var(--bg)}
-.frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none}
-.frames iframe.active{display:block}
+.frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;visibility:hidden;z-index:0}
+.frames iframe.active{visibility:visible;z-index:1}
 
 .fallback{position:absolute;left:0;right:0;bottom:0;padding:.5rem 1rem;text-align:center;
   color:var(--muted);font-size:.78rem;line-height:1.6;background:var(--bg);
