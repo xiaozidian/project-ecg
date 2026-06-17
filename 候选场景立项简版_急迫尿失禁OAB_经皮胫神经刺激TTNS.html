@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>候选场景立项简版 · OAB / 急迫性尿失禁的经皮胫神经刺激(TTNS)</title>
+<meta name="description" content="膀胱过度活动症 / 急迫性尿失禁的家用经皮胫神经刺激(TTNS)候选场景立项前评估">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --surface:#faf7f5;
+  --surface-2:#f5efec;
+  --ink:#231d1b;
+  --ink-soft:#4f4744;
+  --muted:#6a615d;
+  --rule:#e8e1dc;
+  --rule-soft:#f0ebe7;
+  --accent:#a32a45;
+  --accent-deep:#7c1d33;
+  --accent-tint:#fbeef1;
+  --accent-soft:#f6e2e7;
+  --g:#2f8f5b; --y:#c8881b; --r:#bb2d3b;
+  --maxw:44rem;
+  --serif:"Newsreader","Songti SC","STSong","Noto Serif SC","Source Han Serif SC",Georgia,serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,"Segoe UI",sans-serif;
+  --z-toc:10; --z-bar:20;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.9;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1;
+}
+::selection{background:var(--accent-soft);color:var(--accent-deep)}
+
+.progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:var(--z-bar);transition:width .1s linear}
+@media (prefers-reduced-motion:reduce){.progress{transition:none}}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+
+.cover{max-width:52rem;margin:0 auto;padding:clamp(3.5rem,8vw,6.5rem) 1.5rem clamp(2rem,4vw,3rem)}
+.kicker{display:inline-flex;align-items:center;gap:.6em;font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:1.6rem}
+.kicker::before{content:"";width:1.6rem;height:1px;background:var(--accent)}
+.cover h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(2rem,5.2vw,3.5rem);line-height:1.12;letter-spacing:-.01em;
+  margin:0 0 1.2rem;color:var(--ink);text-wrap:balance;max-width:22ch;
+}
+.cover .subtitle{font-size:clamp(1.02rem,2.2vw,1.22rem);color:var(--ink-soft);
+  line-height:1.6;max-width:48ch;margin:0 0 2rem;font-weight:400}
+.cover .subtitle em{font-style:normal;color:var(--accent-deep)}
+.meta-row{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;align-items:center;
+  padding-top:1.4rem;border-top:1px solid var(--rule);font-size:.86rem;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:.45em;padding:.28em .8em;border-radius:999px;
+  background:var(--accent-tint);color:var(--accent-deep);font-weight:600;font-size:.78rem;letter-spacing:.02em}
+.badge .dot{width:.5em;height:.5em;border-radius:50%;background:var(--accent)}
+.kw{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;padding:0;margin:1.6rem 0 0}
+.kw li{font-size:.78rem;color:var(--ink-soft);padding:.3em .8em;border:1px solid var(--rule);
+  border-radius:6px;background:var(--surface)}
+
+.layout{max-width:74rem;margin:0 auto;padding:0 1.5rem 5rem;
+  display:grid;grid-template-columns:1fr;gap:2.5rem}
+@media (min-width:1080px){
+  .layout{grid-template-columns:15rem minmax(0,1fr);gap:4rem;align-items:start}
+}
+
+.toc{font-size:.85rem}
+.toc .toc-title{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0 0 1rem;padding-bottom:.7rem;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+.toc li{margin:0}
+.toc a{display:block;color:var(--ink-soft);padding:.42em 0 .42em .9rem;
+  border-left:1px solid var(--rule-soft);line-height:1.4;transition:color .18s,border-color .18s}
+.toc a:hover{color:var(--ink);text-decoration:none;border-left-color:var(--accent-soft)}
+.toc a.active{color:var(--accent-deep);font-weight:600;border-left-color:var(--accent)}
+@media (min-width:1080px){
+  .toc{position:sticky;top:2.2rem;max-height:calc(100vh - 4rem);overflow-y:auto;
+    padding-right:.4rem;-webkit-overflow-scrolling:touch}
+  .toc::-webkit-scrollbar{width:5px}
+  .toc::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+}
+@media (max-width:1079px){
+  .toc{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:1.2rem 1.3rem}
+}
+
+.prose{max-width:var(--maxw);min-width:0}
+.chapter{padding-top:1rem;margin-bottom:2.4rem}
+.chapter+.chapter{border-top:1px solid var(--rule-soft);margin-top:1rem;padding-top:2.8rem}
+.ch-head{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,3.4vw,2.1rem);
+  line-height:1.22;letter-spacing:-.005em;color:var(--ink);margin:0 0 1.4rem;
+  scroll-margin-top:1.5rem;text-wrap:balance;display:flex;align-items:baseline;gap:.7rem}
+.ch-rule{flex:0 0 auto;width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);
+  transform:translateY(-.18em)}
+h3{font-family:var(--serif);font-weight:600;font-size:1.28rem;line-height:1.35;
+  color:var(--ink);margin:2.4rem 0 .9rem;letter-spacing:-.003em;scroll-margin-top:1.5rem}
+h4{font-weight:700;font-size:1.02rem;color:var(--accent-deep);margin:1.8rem 0 .7rem;letter-spacing:.01em}
+.prose p{margin:0 0 1.1rem;color:var(--ink-soft);text-wrap:pretty}
+.prose strong{color:var(--ink);font-weight:700}
+.prose em{color:var(--ink);font-style:italic}
+.prose>section p{hyphens:none}
+
+.prose ul,.prose ol{margin:0 0 1.3rem;padding-left:0;color:var(--ink-soft)}
+.prose ul{list-style:none}
+.prose ul li{position:relative;padding-left:1.5rem;margin:.5em 0}
+.prose ul li::before{content:"";position:absolute;left:.2rem;top:.72em;width:.42rem;height:.42rem;
+  border-radius:50%;border:1.5px solid var(--accent);background:transparent}
+.prose ol{list-style:none;counter-reset:li}
+.prose ol li{position:relative;padding-left:2.1rem;margin:.7em 0;counter-increment:li}
+.prose ol li::before{content:counter(li);position:absolute;left:0;top:.05em;
+  width:1.5rem;height:1.5rem;display:grid;place-items:center;font-family:var(--serif);
+  font-size:.82rem;font-weight:600;color:var(--accent-deep);background:var(--accent-tint);border-radius:50%}
+.prose li strong:first-child{color:var(--ink)}
+
+.note{position:relative;background:var(--surface);border:1px solid var(--rule);border-radius:12px;
+  padding:1.1rem 1.3rem 1.1rem 2.5rem;margin:1.5rem 0;font-size:.96rem}
+.note .note-mark{position:absolute;left:1rem;top:1.25rem;width:1rem;height:1rem;border-radius:50%;
+  background:var(--accent-tint)}
+.note .note-mark::after{content:"i";position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-style:italic;font-size:.7rem;font-weight:600;color:var(--accent-deep)}
+.note p{margin:0;color:var(--ink-soft)}
+.note strong{color:var(--accent-deep)}
+
+.table-wrap{margin:1.6rem 0;overflow-x:auto;border-radius:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.92rem;line-height:1.55;min-width:30rem}
+thead th{text-align:left;font-weight:700;color:var(--ink);padding:.85em 1em;
+  background:var(--surface);border-bottom:2px solid var(--accent);white-space:nowrap;vertical-align:bottom}
+tbody td{padding:.8em 1em;border-bottom:1px solid var(--rule);color:var(--ink-soft);vertical-align:top}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+tbody tr:hover td{background:var(--surface)}
+table strong{color:var(--ink)}
+td:first-child{color:var(--ink)}
+
+.sig{display:inline-flex;align-items:center;gap:.5em;font-weight:600;white-space:nowrap}
+.sig .dot{width:.7em;height:.7em;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+.sig-g{color:var(--g)} .sig-g .dot{background:var(--g)}
+.sig-y{color:var(--y)} .sig-y .dot{background:var(--y)}
+.sig-r{color:var(--r)} .sig-r .dot{background:var(--r)}
+
+.fineprint{font-size:.82rem;color:var(--muted);font-style:italic;line-height:1.7}
+.endmark{text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted);
+  margin:2.5rem 0 1rem;letter-spacing:.05em}
+
+.foot{max-width:74rem;margin:0 auto;padding:2.5rem 1.5rem 4rem;border-top:1px solid var(--rule);
+  color:var(--muted);font-size:.8rem;line-height:1.7}
+.foot strong{color:var(--ink-soft)}
+
+.chapter{opacity:1}
+.reveal{opacity:0;transform:translateY(14px)}
+.reveal.shown{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.reveal.shown{opacity:1;transform:none;transition:none}
+}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .cover{padding-top:3rem}
+  .note{padding-left:2.3rem}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="cover">
+  <div class="kicker">机密 · 候选场景立项前评估</div>
+  <h1>急迫性尿失禁 / 膀胱过度活动症(OAB)的经皮胫神经刺激(TTNS)</h1>
+  <p class="subtitle">在痛经主报告之外评估的"更蓝海 + 有证据"候选方向 · <em>已企查查核实并据实修正</em></p>
+  <ul class="kw"><li>经皮胫神经刺激(TTNS)</li><li>膀胱过度活动症</li><li>急迫性尿失禁</li><li>家用神经调控</li><li>第二类医疗器械</li><li>女性盆底健康</li></ul>
+  <div class="meta-row">
+    <span class="badge"><span class="dot"></span>候选场景立项简版(机密)</span>
+    <span>结论已据核证修正:首证窗口已关闭</span>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" aria-label="目录">
+    <p class="toc-title">目录</p>
+    <ol><li><a href="#sec-0" data-target="sec-0">〇、一句话结论</a></li><li><a href="#sec-1" data-target="sec-1">一、需求与市场</a></li><li><a href="#sec-2" data-target="sec-2">二、证据链</a></li><li><a href="#sec-3" data-target="sec-3">三、海外标杆对标</a></li><li><a href="#sec-4" data-target="sec-4">四、国内竞争与注册证(已核实)</a></li><li><a href="#sec-5" data-target="sec-5">五、产品形态与差异化</a></li><li><a href="#sec-6" data-target="sec-6">六、合规边界</a></li><li><a href="#sec-7" data-target="sec-7">七、如何验证效果</a></li><li><a href="#sec-8" data-target="sec-8">八、风险矩阵</a></li><li><a href="#sec-9" data-target="sec-9">九、结论与下一步</a></li></ol>
+  </nav>
+  <main class="prose">
+
+<section class="chapter" id="sec-0">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>〇、一句话结论</h2>
+<p>建议作为<strong>优先候选方向评估</strong>:OAB / 急迫性尿失禁的<strong>家用经皮胫神经刺激(TTNS)</strong>,证据等级最高(指南级 + Vivally FDA 可穿戴先例)。但经企查查核实,<strong>国内"首证窗口"已关闭</strong>:杭州承诺医疗已持"穿戴式经皮胫神经刺激器"二类创新证(OAB),且坐拥骶神经(SNM)/脑深部(DBS)全栈神经调控;麦澜德、伟思为院端盆底巨头。本方向因此与痛经同病——有证据,但已有强势持证先行者,差异化只能退到执行层。</p>
+<aside class="note"><div class="note-mark" aria-hidden="true"></div><p>三个判断前提(承接主报告立场):① 卖点押<strong>神经调控机制</strong>(胫神经经骶反射抑制膀胱过度活动),穴位(三阴交 SP6 / 胫神经走行)仅作电极布点工程依据;② 证据可引用作"机理与方向支持",<strong>不可</strong>等同于"我方产品 = 这些临床效果";③ 治疗类宣称 = 二类医疗器械,合规是地基。</p></aside>
+</section>
+
+<section class="chapter" id="sec-1">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>一、需求与市场:为什么是 OAB / 急迫性尿失禁</h2>
+<h3>1.1 真实、高发、被严重忽视、低满意度</h3>
+<ul><li><strong>高发且随龄上升:</strong> 国内流行病学报道成人 OAB 约 <strong>6%</strong>、<strong>40 岁以上约 11%</strong>,女性与中老年更高(原始文献待核)。成年女性尿失禁患病率多报道在 <strong>30% 量级</strong>,其中急迫性/混合性占相当比例。</li><li><strong>极度未被满足:</strong> "尿急、尿频、夜尿、憋不住"难以启齿、就诊率低;一线抗胆碱能/β3 药(索利那新、米拉贝隆等)有口干、便秘、认知等副作用,<strong>停药即反复、依从性差</strong>。</li><li><strong>怕药 + 怕手术:</strong> 骶神经调控(SNM)需植入手术——<strong>"家用、非药物、非侵入"在这里是硬需求</strong>,不是卖点修饰。</li><li><strong>女性全周期协同:</strong> 产后、围绝经、老年都是高发段,与痛经→孕产→盆底的女性健康品牌资产同源。</li></ul>
+<h3>1.2 市场规模测算(中国口径 · 测算假设,待校准)</h3>
+<div class="table-wrap"><table><thead><tr><th>层级</th><th>取值(假设)</th><th>人数(测算)</th><th>依据 / 待校准</th></tr></thead><tbody><tr><td>成年女性(18+)</td><td>约 5.3 亿</td><td>5.3 亿</td><td>全国女性 6.88 亿扣减未成年估算,待按分龄数据校准</td></tr><tr><td>× 女性 OAB 患病率</td><td>10%</td><td>约 5300 万</td><td>总体约 6%、女性与中老年更高,取 10%</td></tr><tr><td>× 中重度 / 含急迫性尿失禁、明显困扰</td><td>35%</td><td>约 1855 万</td><td>货币化核心人群</td></tr><tr><td>× 城镇 + 线上 + 愿付费 + 愿正视(去羞耻折扣)</td><td>25%</td><td><strong>约 460 万(SAM)</strong></td><td>启齿门槛拉低渗透,最弱假设,待一手调研</td></tr></tbody></table></div>
+<aside class="note"><div class="note-mark" aria-hidden="true"></div><p><strong>SOM:</strong> 按占 SAM 渗透 1% / 3% / 6% → 约 <strong>4.6 万 / 14 万 / 28 万</strong>付费用户(渗透低于痛经,因认知与启齿门槛更高)。客单建议"主机 + 凝胶电极耗材订阅 + APP 排尿管理会员"三层。<br><strong>数据来源:</strong> OAB/尿失禁流行病学(OAB 诊治指南及国内流调,数值待核原文);国家统计局《2025 年全国 1% 人口抽样调查》女性 6.88 亿。以上为公开二手数据,仅框定量级。</p></aside>
+</section>
+
+<section class="chapter" id="sec-2">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>二、证据链:TTNS 治 OAB 的科学背书</h2>
+<h3>2.1 机制(可解释、可对外讲)</h3>
+<p>胫神经含 <strong>L4–S3</strong> 纤维,与支配膀胱的骶神经(S2–S4)同源;刺激踝部胫神经,经<strong>骶反射通路</strong>调节脊髓排尿中枢,<strong>抑制逼尿肌过度活动、提高膀胱容量、延长排尿间隔、抑制尿急</strong>。这与三阴交(SP6)/胫神经走行重合——穴位在此仅作"找神经的工程坐标",科学信誉押在神经调控上。</p>
+<h3>2.2 直接证据(逐条)</h3>
+<div class="table-wrap"><table><thead><tr><th>研究 / 证据</th><th>设计</th><th>关键结果</th><th>出处</th></tr></thead><tbody><tr><td><strong>Vivally(FREE-OAB)</strong></td><td>前瞻多中心,96 例 OAB</td><td>6 个月:尿急应答 <strong>69%</strong>、急迫性尿失禁应答 <strong>63%</strong>;98% 易用;无器械相关重大不良</td><td>支撑其 2023 FDA 510(k) 清关</td></tr><tr><td><strong>Urgent PC(Laborie,PTNS)</strong></td><td>经皮胫神经刺激,长期临床</td><td>约 <strong>50 项研究</strong>、12 年、<strong>逾百万次治疗</strong>、FDA 获批,OAB 三线疗法</td><td>厂商/监管公开资料</td></tr><tr><td><strong>国内 TTNS RCT</strong></td><td>120 例老年女性急迫性尿失禁,TTNS+盆底/膀胱训练 vs 训练,6 周</td><td>排尿日记、ICIQ-SF、I-QOL 显著改善;主观满意度 <strong>98.3% vs 80%</strong></td><td>《江苏医药》2024;(03)</td></tr><tr><td><strong>承诺医疗注册临床</strong></td><td>6 中心、86 例、真假刺激随机单盲</td><td>主指标 72h 排尿日记每日排尿次数显著改善,支撑其创新二类证</td><td>浙械注准20232091376(企查查核实)</td></tr></tbody></table></div>
+<h3>2.3 诚实解读</h3>
+<ul><li>这是几个候选里<strong>证据等级最高、且海外可穿戴(Vivally)已 FDA 跑通、国内已有注册 RCT</strong> 的一个;终点(排尿日记、ICIQ-SF、应答率)国际统一、可自证。</li><li>但现有强证据多为<strong>院端 PTNS 或踝戴 TTNS 在中老年人群</strong>;迁移到我方家用形态仍需自有验证。<strong>对外</strong>定位"临床研究支持的非药物盆底/膀胱管理方式",不夸大为"治愈"。</li></ul>
+</section>
+
+<section class="chapter" id="sec-3">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>三、海外标杆对标</h2>
+<div class="table-wrap"><table><thead><tr><th>产品</th><th>技术/形态</th><th>监管</th><th>关键打法</th><th>可学之处</th></tr></thead><tbody><tr><td><strong>Vivally(Avation Medical)</strong></td><td>踝戴式 TTNS + APP + 闭环 EMG 个性化</td><td>FDA 510(k)(2023)</td><td>处方级家用、闭环客观确认胫神经激活</td><td>"可穿戴 + APP + 闭环"把院端 PTNS 搬回家</td></tr><tr><td><strong>Urgent PC(Laborie)</strong></td><td>院端 PTNS(针电极)</td><td>FDA</td><td>50 项研究背书、医院渠道</td><td>证据厚度与适应症叙事</td></tr></tbody></table></div>
+<p>海外已验证"家用 TTNS 可穿戴 + 数字化"的可行性与监管路径,给我方提供清晰对标与注册参照。</p>
+</section>
+
+<section class="chapter" id="sec-4">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>四、国内竞争与注册证缺口(已企查查核实)</h2>
+<p><strong>核证结论:本方向的"首证窗口"已关闭,且先行者实力很强。</strong></p>
+<ul><li><strong>杭州承诺医疗科技有限公司 = 直接对标、已持证(关键):</strong> 持有<strong>"穿戴式经皮胫神经刺激器"二类创新医疗器械注册证(浙械注准20232091376,2023-06,有效至 2028)</strong>,适应症即 OAB / 尿频尿急辅助治疗,且有 6 中心、86 例、真假刺激随机单盲 RCT;已上京东/苏宁。更关键的是它是<strong>全栈膀胱/神经调控厂商</strong>——同时持国产<strong>植入式骶神经刺激器(SNM,国械注准20233120807/808/809,三类)</strong>、<strong>脑深部刺激器(DBS,三类)</strong>、一次性膀胱刺激电极、盆底康复治疗仪。→ <strong>"国内首证/首创"已被一个比易舒美更硬核的对手拿走。</strong></li><li><strong>麦澜德(688273,41 张注册证)、伟思(688580,69 张注册证)= 院端盆底巨头:</strong> 主力为生物刺激反馈仪、阴道/直肠电极、盆底肌电、磁刺激等院端产品(主攻产后盆底/压力性尿失禁),暂未见家用 TTNS;但二者均为科创板上市、注册与渠道能力极强,<strong>是随时可下场做家用 OAB 的潜在入场者。</strong></li><li><strong>消费端:</strong> 京东已有"穿戴式经皮胫神经刺激器 TTNS"在售。</li></ul>
+<aside class="note"><div class="note-mark" aria-hidden="true"></div><p><strong>由此得到一条规律:</strong> OAB/TTNS 与痛经、止吐(舒乐定/法罗适)是同一模式——<strong>有 RCT 证据的电刺激场景,国内基本都已被有实力的厂家拿证占位</strong>。这揭示:<strong>"蓝海"与"有证据"在这个品类里高度互斥</strong>,纯蓝海往往恰恰是因为没人验证过。<br><strong>数据来源:</strong> 企查查企业资质/医疗器械注册证(承诺医疗 USCC 91330110084555096M、麦澜德 9132011505799566XM、伟思 913201007217994654);浙江省创新医疗器械公示与临床试验设计公开资料。(注:某零售页将生产商标注为"诺尔康"系误标,诺尔康注册证均为人工耳蜗,真正持证人为承诺医疗。)</p></aside>
+</section>
+
+<section class="chapter" id="sec-5">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>五、产品形态与差异化</h2>
+<div class="table-wrap"><table><thead><tr><th>维度</th><th>院端盆底仪 / 通用理疗仪</th><th>我方:家用 TTNS 可穿戴</th></tr></thead><tbody><tr><td>形态</td><td>阴道探头 / 盒式主机 + 导线,需到院</td><td>踝/腿柔性贴合腕带式,居家自用</td></tr><tr><td>场景</td><td>临床、产后康复疗程</td><td>居家长期管理,边追剧边用</td></tr><tr><td>交互</td><td>机身/医护操作</td><td>APP 个性化方案 + 排尿日记联动</td></tr><tr><td>适应症定位</td><td>多为压力性尿失禁/产后盆底</td><td><strong>OAB / 急迫性尿失禁(尿急、夜尿、憋不住)</strong></td></tr><tr><td>数据</td><td>无沉淀</td><td>排尿日记 + 症状改善曲线,建复购与壁垒</td></tr></tbody></table></div>
+<p>差异化锚点:<strong>家用一体可穿戴形态 + OAB/急迫型适应症 + APP 排尿管理 + 女性盆底品牌</strong>,对标 Vivally 而非院端探头仪。但须正视:承诺医疗已占同一身位,差异化必须在轻薄/女性化形态、品牌、数据生态、价格渠道上做出可感差距。</p>
+</section>
+
+<section class="chapter" id="sec-6">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>六、合规边界(红绿灯)</h2>
+<div class="table-wrap"><table><thead><tr><th>拟宣称内容</th><th>信号灯</th><th>说明</th></tr></thead><tbody><tr><td>腿部放松、促进局部循环、舒缓</td><td><span class="sig sig-g"><span class="dot"></span>绿</span></td><td>非医疗表述,无证可用(按摩器类目)</td></tr><tr><td>帮助改善尿频尿急、辅助膀胱/盆底管理</td><td><span class="sig sig-y"><span class="dot"></span>黄</span></td><td>功能宣称,需二类医疗器械注册证支撑</td></tr><tr><td>缓解膀胱过度活动症引起的尿急、急迫性尿失禁</td><td><span class="sig sig-y"><span class="dot"></span>黄</span></td><td>注册适应症申报方向(对标 Vivally / 承诺医疗)</td></tr><tr><td>治愈尿失禁 / 根治 OAB / 替代手术或药物</td><td><span class="sig sig-r"><span class="dot"></span>红</span></td><td>禁止,无依据且违反广告法</td></tr><tr><td>用于神经源性膀胱等重症而无医疗监督</td><td><span class="sig sig-r"><span class="dot"></span>红</span></td><td>须明确禁忌与就医提示</td></tr></tbody></table></div>
+<p><strong>两阶段策略:</strong> 阶段一(拿证前)以"腿部舒缓/放松"消费电子铺品牌、积累真实排尿改善数据;阶段二(取得二类证后)以"获证缓解尿急/急迫性尿失禁"为核心卖点,对标 Vivally / 承诺医疗写入适应症。</p>
+</section>
+
+<section class="chapter" id="sec-7">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>七、如何验证效果(对照设计)</h2>
+<div class="table-wrap"><table><thead><tr><th>对照组</th><th>衡量什么</th><th>营销语言</th></tr></thead><tbody><tr><td>vs 假刺激(sham TTNS)</td><td>24h 尿急/急迫性尿失禁次数下降是否显著优于 sham</td><td>"临床对照验证",对标 Vivally FREE-OAB</td></tr><tr><td>vs 单纯盆底/膀胱训练</td><td>在训练基础上叠加 TTNS 的增量</td><td>对标国内 TTNS RCT(满意度 98% vs 80%)</td></tr></tbody></table></div>
+<p><strong>核心指标:</strong> 排尿日记(24h 尿急次数、急迫性尿失禁次数、排尿次数、夜尿)、ICIQ-SF、OAB-q / I-QOL 生活质量、应答率(症状改善 ≥50%)、不良反应。</p>
+<p><strong>分阶段:</strong></p>
+<ol><li><strong>小样本可行性</strong>(20–40 人,自身前后),快速验证家用形态的即时与短期效果。</li><li><strong>随机 sham 对照</strong>(主指标尿急/UUI 次数),对标承诺医疗 86 例注册临床的设计强度。</li><li><strong>联合泌尿/盆底专家发表</strong>,把"引用他人"升级为"自有证据"。</li></ol>
+</section>
+
+<section class="chapter" id="sec-8">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>八、风险矩阵(简)</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>风险</th><th>概率</th><th>影响</th><th>缓解</th></tr></thead><tbody><tr><td><strong>Q1 ⛔</strong></td><td>注册可能要求临床试验(OAB 终点明确、易被要求做)</td><td>中</td><td>高</td><td>早期法规确认路径;阶段一舒缓类目先上</td></tr><tr><td><strong>Q2 ⛔</strong></td><td>"首证"窗口<strong>已确认关闭</strong>(承诺医疗持创新二类证 + 骶神经/DBS 全栈)</td><td>高</td><td>高</td><td>放弃"首证"叙事;若做,只能打形态/品牌/数据/价格执行差异</td></tr><tr><td>Q3</td><td>启齿/认知门槛高,获客贵</td><td>高</td><td>中</td><td>私域/医患共建内容,去羞耻教育,控 CAC</td></tr><tr><td>Q4</td><td>院端厂家(麦澜德/伟思)下场做家用</td><td>中</td><td>中</td><td>抢家用 OAB 适应症 + 品牌 + 数据生态</td></tr><tr><td>Q5</td><td>效果个体差异、留存与复购</td><td>中</td><td>高</td><td>排尿日记可视化反馈 + 耗材订阅绑定</td></tr><tr><td>Q6</td><td>中老年线上触达难、IP(Vivally 闭环 EMG / 承诺医疗专利)</td><td>中</td><td>中</td><td>多渠道 + FTO 检索规避闭环专利</td></tr></tbody></table></div>
+</section>
+
+<section class="chapter" id="sec-9">
+<h2 class="ch-head"><span class="ch-rule" aria-hidden="true"></span>九、结论与下一步</h2>
+<p><strong>结论(已据核证修正):</strong> OAB / 急迫性尿失禁的家用 TTNS 证据最硬、海外有 Vivally FDA 先例、与女性盆底品牌协同——<strong>但"国内消费端仍蓝海/首证可争取"的前提已被推翻</strong>:承诺医疗已持创新二类证并坐拥骶神经/DBS 全栈,麦澜德/伟思虎视家用。本方向因此<strong>与痛经同病</strong>:不是蓝海,要做就只能靠"家用一体形态 + 女性品牌 + APP 数据 + 价格/渠道"的执行差异正面竞争,且对手实力更强。是否值得做,取决于能否在执行层明显跑赢。</p>
+<h3>Go / No-Go 关键问题</h3>
+<ol><li>现有硬件能否做成踝/腿家用 TTNS 形态与所需波形?(硬件核实)</li><li>既然"首证"已被承诺医疗拿走,我方能否在形态(更轻/更美/女性化)、品牌、APP 数据、价格渠道上明显跑赢?(商业判断 → 决定本方向是否还值得做)</li><li>是否接受偏中老年女性 + 需做品类去羞耻教育的获客模型?(商业判断)</li></ol>
+<aside class="note"><div class="note-mark" aria-hidden="true"></div><p><strong>下一步:</strong> ①(已完成)企查查核证:承诺医疗持创新二类证、麦澜德/伟思院端盆底巨头,首证窗口关闭;② 硬件能力核对;③ 小样本可行性验证(20–40 人,排尿日记主指标);④ 接触泌尿/盆底专家探讨合作 PI。</p></aside>
+<p class="endmark">— 候选场景简版 完 —</p>
+<p class="fineprint">本简版为内部立项前评估材料。所引研究(Vivally / Urgent PC / 国内 TTNS RCT / 承诺医疗注册临床等)多以院端或中老年人群为对象,可作机理与方向支持,不可直接等同于我方家用产品的临床效果;所有功效宣称以最终取得的医疗器械注册资质与获批适应症为限;流行病学与市场数字为公开二手或测算假设,须以原始文献与一手调研替换。</p>
+</section>
+
+  </main>
+</div>
+
+<footer class="foot">
+  <p><strong>免责声明 ·</strong> 本简版为内部立项前评估材料。竞争与注册证信息基于企查查公开资质数据(检索时点动态),功效与流行病学引用为机理与方向支持,不可直接等同于本产品形态的临床效果。所有功效宣称须以最终取得的医疗器械注册资质及获批适应症为限,法规分类与注册路径以专业法规顾问意见为准。</p>
+</footer>
+
+<script>
+(function(){
+  var bar=document.querySelector('.progress');
+  function onScroll(){
+    var h=document.documentElement;
+    var sc=h.scrollTop||document.body.scrollTop;
+    var max=h.scrollHeight-h.clientHeight;
+    if(bar)bar.style.width=(max>0?(sc/max*100):0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
+  var map={};links.forEach(function(a){map[a.dataset.target]=a;});
+  var secs=[].slice.call(document.querySelectorAll('section.chapter'));
+
+  if('IntersectionObserver' in window){
+    var spy=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){a.classList.remove('active');});
+          var a=map[e.target.id];if(a)a.classList.add('active');
+        }
+      });
+    },{rootMargin:'-15% 0px -70% 0px',threshold:0});
+    secs.forEach(function(s){spy.observe(s);});
+
+    var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(!reduce){
+      secs.forEach(function(s){s.classList.add('reveal');});
+      var rev=new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          if(e.isIntersecting){e.target.classList.add('shown');rev.unobserve(e.target);}
+        });
+      },{rootMargin:'0px 0px -8% 0px',threshold:.06});
+      secs.forEach(function(s){rev.observe(s);});
+      setTimeout(function(){secs.forEach(function(s){s.classList.add('shown');});},1400);
+    }
+  }
+})();
+</script>
+</body>
+</html>
