@@ -22,6 +22,38 @@ REPORTS = [
 ]
 
 
+# Injected into every embedded report. In an <iframe srcdoc> the document's
+# base URL is inherited from the parent, so a bare in-page link like
+# href="#sec-12" resolves against index.html and *navigates the frame away*
+# (blanking the report). Intercepting same-page anchor clicks and scrolling
+# in-document keeps TOC links, footnote refs and back-links working when
+# embedded, and is harmless when the report is opened standalone.
+ANCHOR_SHIM = """<script>
+(function(){
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^="#"]'):null;
+    if(!a)return;
+    var raw=a.getAttribute('href');
+    if(!raw||raw==='#')return;
+    var id=raw.slice(1);
+    var t=document.getElementById(id)||document.getElementById(decodeURIComponent(id));
+    if(!t)return;
+    e.preventDefault();
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  },false);
+})();
+</script>"""
+
+
+def inject_shim(doc):
+    """Insert the anchor shim just before the report's closing </body>."""
+    idx = doc.rfind("</body>")
+    if idx == -1:
+        return doc + ANCHOR_SHIM
+    return doc[:idx] + ANCHOR_SHIM + "\n" + doc[idx:]
+
+
 def load(fn):
     with open(os.path.join(BASE, fn), encoding="utf-8") as f:
         return f.read()
@@ -32,15 +64,17 @@ for i, (fid, main, sub, fn, title) in enumerate(REPORTS):
     active = " active" if i == 0 else ""
     sel = "true" if i == 0 else "false"
     tabs.append(
-        f'    <button class="tab{active}" role="tab" aria-selected="{sel}" data-target="{fid}">\n'
+        f'    <button class="tab{active}" id="tab-{i}" role="tab" aria-selected="{sel}"\n'
+        f'      aria-controls="{fid}" tabindex="{0 if i == 0 else -1}" data-target="{fid}">\n'
         f'      <span class="t-main">{html.escape(main)}</span>\n'
         f'      <span class="t-sub">{html.escape(sub)}</span>\n'
         f'    </button>'
     )
-    srcdoc = html.escape(load(fn), quote=True)
+    srcdoc = html.escape(inject_shim(load(fn)), quote=True)
     frames.append(
         f'  <iframe id="{fid}" class="{("active" if i == 0 else "").strip() or "frame"}" '
-        f'title="{html.escape(title)}"\n          srcdoc="{srcdoc}"></iframe>'
+        f'title="{html.escape(title)}"\n          role="tabpanel" aria-labelledby="tab-{i}"'
+        f'\n          srcdoc="{srcdoc}"></iframe>'
     )
     links.append(f'<a href="{html.escape(fn)}">{html.escape(main)}</a>')
 
@@ -146,17 +180,29 @@ doc = f"""<!DOCTYPE html>
 (function(){{
   var tabs=[].slice.call(document.querySelectorAll('.tab'));
   var frames=[].slice.call(document.querySelectorAll('.frames iframe'));
-  function activate(id){{
+  function activate(id,focus){{
     tabs.forEach(function(t){{
       var on=t.dataset.target===id;
       t.classList.toggle('active',on);
       t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      if(on&&focus)t.focus();
     }});
     frames.forEach(function(f){{f.classList.toggle('active',f.id===id);}});
     try{{history.replaceState(null,'',id==='frame-oab'?'#oab':'#report');}}catch(e){{}}
   }}
-  tabs.forEach(function(t){{
+  tabs.forEach(function(t,i){{
     t.addEventListener('click',function(){{activate(t.dataset.target);}});
+    t.addEventListener('keydown',function(e){{
+      var d=0;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')d=1;
+      else if(e.key==='ArrowLeft'||e.key==='ArrowUp')d=-1;
+      else if(e.key==='Home'){{e.preventDefault();return activate(tabs[0].dataset.target,true);}}
+      else if(e.key==='End'){{e.preventDefault();return activate(tabs[tabs.length-1].dataset.target,true);}}
+      else return;
+      e.preventDefault();
+      activate(tabs[(i+d+tabs.length)%tabs.length].dataset.target,true);
+    }});
   }});
   if(location.hash==='#oab')activate('frame-oab');
 }})();
